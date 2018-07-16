@@ -1,0 +1,41 @@
+/** Header Styles **/
+$headerColor: lightblue;
+$headerWidth: 100%;
+$headerHeight: 50px;
+$headerPosition: fixed;
+$headerZindex: 100;
+
+
+
+/**SideBarStyles **/
+$widthSidebar : 200px;
+$sidebarBackGround: #333333;
+$sidebarHeight: calc(100vh - 69px);
+$sidebarTransition: all .25s;
+$sidebarPosition: fixed;
+$sidebarMarginTop:50px;
+$sidebarCollapseLeft: -199px;
+$sidebarCollapseMartinRight: -199px;
+$sidebarCollapseMartinPosition: fixed;
+
+
+/**ContanMain **/
+$contentMainWith: 84%;
+$contentMainBackground: #FFFFFF;
+$contentMainFloat: left;
+$contentMainHeight:  calc(100vh - 68px);
+$contentMainTransition: all .25s;
+$contentMainPadding:11px 3px 1px 15px;
+$contentMainMarginTop:56px;
+$contentMainMarginLeft:200px;
+$contentMainCollapseWidth: 99%;
+$contentMainCollapseDisplay: block;
+$contentMainCollapseMarginLeft: 0px;
+
+/**Footer**/
+$footerWidth: 100%;
+$footerPosition: fixed;
+$footerBackground: dimgrey;
+$footerFloat: left;
+$footerLeft: 0px;
+$footerBottom: 0px;

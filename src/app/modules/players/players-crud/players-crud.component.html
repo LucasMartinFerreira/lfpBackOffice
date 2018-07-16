@@ -1,0 +1,99 @@
+<div class="content-create-team">
+  <div class="header-content">
+    <label class="label-title">
+      Creación/Edición de un Jugador
+    </label>
+  </div>
+  <span class="line-border-bottom"></span>
+  <div class="content-form">
+
+    <div class="content-image">
+      <img width="50px" height="50px" *ngIf="photo===''" src="./../../../../assets/Images/uploadImage.png">
+      <img width="50px" height="50px"  *ngIf="photo!==''" src="{{photo}}">
+    </div>
+
+    <div  class="button-upload">
+
+      <label for="file-upload" class="custom-file-upload">
+        Subir Imágen
+      </label>
+      <input id="file-upload" type="file" (change)="onFileChanged($event)"/>
+
+    </div>
+
+    <div>
+      <div>
+        <label for="namePlayer">Nombre del Jugador:</label>
+        <input type="text" id="namePlayer" name="namePlayer" [(ngModel)]="name" placeholder="Nombre">
+      </div>
+
+      <div>
+        <label for="secondname">Apellidos:</label>
+        <input id="secondname" type="text" name="secondname" placeholder="Apellidos" [(ngModel)]="secondname">
+      </div>
+
+      <div>
+        <label for="nationality">Nacionalidad:</label>
+        <input id="nationality" type="text" name="nationality" placeholder="Nacionalidad" [(ngModel)]="nationality">
+      </div>
+
+
+      <div>
+        <label for="teamName">Equipo Actual</label>
+        <input [disabled]="true" id= "teamName" type="text" name="teamName" placeholder="Equipo Actual" [(ngModel)]="teamName">
+      </div>
+
+    </div>
+
+
+    <div>
+      <textarea >Strengs</textarea>
+    </div>
+
+    <div>
+      <textarea >Weaknesses</textarea>
+    </div>
+
+    <div>
+      <textarea >Estadísticas</textarea>
+    </div>
+
+    <div>
+
+      <div>
+        <label for="agePlayer">Edad:</label>
+        <input type="text" id="agePlayer" name="agePlayer" [(ngModel)]="age" placeholder="Edad">
+      </div>
+
+      <div>
+        <label for="heightPlayer">Altura:</label>
+        <input id="heightPlayer" type="text" name="heightPlayer" placeholder="Altura" [(ngModel)]="height">
+      </div>
+
+      <div>
+        <label for="weightPlayer">Peso:</label>
+        <input id="weightPlayer" type="text" name="weightPlayer" placeholder="Peso" [(ngModel)]="weight">
+      </div>
+
+    </div>
+
+
+    <div  class="footer-buttons">
+
+      <div *ngIf="player === '' " class="footer-buttons">
+        <button (click)="createPlayer()">Crear Equipo</button>
+      </div>
+      <div *ngIf="player !== '' " class="footer-buttons">
+        <button (click)="updatePlayer()">Editar Equipo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+

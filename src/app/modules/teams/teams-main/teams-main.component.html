@@ -1,0 +1,15 @@
+<div class="content-header">
+  <app-dashboard-header (clickOpenCloseSideBar)="openCloseSidebar($event)"></app-dashboard-header>
+</div>
+<div class="content-sideBar" [ngClass]="{'collapse':stateSidebar}">
+  <app-dashboard-sidebar></app-dashboard-sidebar>
+</div>
+<div class="content-main"  [ngClass]="{'collapse':stateSidebar}">
+  <app-teams-list *ngIf="viewActive === 'ListTeams'"></app-teams-list>
+  <app-teams-crud [team]="teamObject" *ngIf="viewActive === 'CRUDTeams' || viewActive === 'createTeam'"></app-teams-crud>
+
+
+</div>
+<div class="content-footer">
+  <app-footer></app-footer>
+</div>

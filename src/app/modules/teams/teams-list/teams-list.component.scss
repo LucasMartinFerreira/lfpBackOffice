@@ -1,0 +1,30 @@
+table{
+  width: 100%;
+  th.title-buttons    {
+    display: flex;
+    justify-content: center;
+    height: 55px;
+    align-items: center;
+  }
+  td.content-buttons{
+    display: flex;
+    justify-content: center;
+    height: 47px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+
+  }
+
+  button{
+    width: auto;
+    height: 30px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 4px 20px;
+    margin: 0px 15px 0px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

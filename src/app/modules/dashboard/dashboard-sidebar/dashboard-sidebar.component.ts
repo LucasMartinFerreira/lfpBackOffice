@@ -1,0 +1,62 @@
+import {Component, Input, OnInit} from '@angular/core';
+import {DashboardModel} from "../../../models/dashboard-model";
+import {Router} from "@angular/router";
+import {TeamsModel} from "../../../models/teams-model";
+import {PlayersModel} from "../../../models/players.model";
+import {NewsModel} from "../../../models/news.model";
+
+@Component({
+  selector: 'app-dashboard-sidebar',
+  templateUrl: './dashboard-sidebar.component.html',
+  styleUrls: ['./dashboard-sidebar.component.scss']
+})
+export class DashboardSidebarComponent implements OnInit {
+
+  constructor(public dashboardModel: DashboardModel,
+              public newsModel : NewsModel,
+              public router : Router, public teamsModel: TeamsModel, public playersModel: PlayersModel) {
+
+  }
+
+  ngOnInit() {
+
+  }
+
+  createTeam(){
+    this.teamsModel.setObjectTeam('');
+    this.teamsModel.setnameViewActive('createTeam');
+
+    this.router.navigate(['teamsMain'])
+  }
+
+  goToLisTeams(){
+
+    this.teamsModel.setnameViewActive('ListTeams');
+    this.router.navigate(['teamsMain']);
+
+  }
+
+  createPlayer(){
+    this.playersModel.setObjectPlayer('');
+    this.playersModel.setnameViewActive('CRUDPlayers');
+    this.router.navigate(['playersMain'])
+  }
+
+  listPlayers(){
+    this.playersModel.setnameViewActive('ListPlayers');
+    this.playersModel.setViewActive('ListPlayers');
+    this.router.navigate(['playersMain'])
+  }
+
+  createNews(){
+    this.newsModel.setActiveNewsView('CreateNews');
+    this.newsModel.setNameView('CreateNews');
+    this.router.navigate(['newsMain']);
+  }
+
+  goToLisNews(){
+    this.newsModel.setActiveNewsView('ListNews');
+    this.newsModel.setNameView('ListNews');
+    this.router.navigate(['newsMain']);
+  }
+}

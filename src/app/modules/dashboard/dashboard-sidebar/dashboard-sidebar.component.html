@@ -1,0 +1,28 @@
+<div class="sidebar">
+  <ul class="nav">
+    <li>
+      Dashboard
+    </li>
+    <li class="nav-title">Noticias</li>
+    <li class="nav-item" (click)="createNews()">
+      <div class="nav-link">Añadir Noticias</div>
+    </li>
+    <li class="nav-item">
+      <div (click)="goToLisNews()" class="nav-link">Listar Noticias</div>
+    </li>
+    <li class="nav-title">Equipos</li>
+    <li class="nav-item" (click)="createTeam()">
+      <div class="nav-link">Añadir Equipo</div>
+    </li>
+    <li class="nav-item">
+      <div (click)="goToLisTeams()" class="nav-link">Listar Equipos</div>
+    </li>
+    <li class="nav-title">Jugadores</li>
+    <li class="nav-item" (click)="createPlayer()">
+      <a class="nav-link">Añadir Jugador</a>
+    </li>
+    <li class="nav-item" (click)="listPlayers()">
+      <a class="nav-link">Listar Jugadores</a>
+    </li>
+  </ul>
+</div>
