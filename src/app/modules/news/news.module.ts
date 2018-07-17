@@ -8,6 +8,9 @@ import {MatInputModule, MatPaginatorModule, MatTableModule, MatToolbarModule} fr
 import {FormsModule} from "@angular/forms";
 import {PlayersService} from "../../services/players/players.service";
 import {FooterComponent} from "../../components/footer/footer.component";
+import {ModalConfirmActionForNews} from "./news-crud/modal-confirmation/modal-confirm-action-for-news";
+
+
 
 @NgModule({
   imports: [
@@ -16,8 +19,9 @@ import {FooterComponent} from "../../components/footer/footer.component";
     FormsModule,
     CommonModule, MatToolbarModule, MatInputModule, MatTableModule
   ],
-  declarations: [NewsMainComponent, NewsListComponent, NewsCrudComponent],
-  providers:[PlayersService]
+  entryComponents:[ModalConfirmActionForNews],
+  declarations: [NewsMainComponent, NewsListComponent, NewsCrudComponent, ModalConfirmActionForNews],
+  providers:[PlayersService, ModalConfirmActionForNews]
 })
 
 export class NewsModule { }

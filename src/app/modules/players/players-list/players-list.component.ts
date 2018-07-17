@@ -49,9 +49,7 @@ export class PlayersListComponent implements OnInit {
   this.spinner.show();
     this.playersService.getPlayers().subscribe(resultPlayers=>{
 
-
       for(let i=0; i<resultPlayers.data.length;i++){
-
         this.objectPlayers.name = resultPlayers.data[i].name;
         this.objectPlayers.secondname = resultPlayers.data[i].secondname;
         this.objectPlayers.nationality = resultPlayers.data[i].nationality;

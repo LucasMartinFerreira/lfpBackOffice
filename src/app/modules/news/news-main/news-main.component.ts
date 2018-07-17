@@ -10,13 +10,18 @@ export class NewsMainComponent implements OnInit {
 
   public stateSidebar;
   public viewActive: any = 'ListNews';
+  public newObject: any;
 
   constructor(public newsModel: NewsModel) {
 
-    this.newsModel.getActiveNewsView().subscribe(resultView=>{
+    this.newsModel.getActiveNewsView().subscribe(resultView => {
       let view = resultView;
       this.viewActive = view;
     })
+
+    this.newsModel.getObjectNew().subscribe(result => {
+      this.newObject = result;
+    });
   }
 
   ngOnInit() {

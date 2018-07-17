@@ -159,6 +159,7 @@ export class TeamsCRUDComponent implements OnInit {
 
 
 
+      this.valuePhoto = this;
 
       reader.onload = (event:any) => {
         console.log('Tenemos la foto....')
