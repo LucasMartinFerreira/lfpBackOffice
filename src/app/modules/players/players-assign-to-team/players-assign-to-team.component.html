@@ -1,0 +1,35 @@
+<div class="content-assign-players">
+  <div class="header-content">
+    <label class="label-title">
+      Altas y Bajas en el {{nameTeam}}
+    </label>
+    <div class="content-image">
+      <img *ngIf="photoTeam===''" src="./../../../../assets/Images/uploadImage.png">
+      <img  *ngIf="photoTeam!==''" src="{{photoTeam}}">
+    </div>
+  </div>
+  <span class="line-border-bottom"></span>
+  <div class='wrapper'>
+    <div class="title-column-players-team">
+      Jugadores activos
+    </div>
+    <div class="title-column-player-without-team">
+      Jugadores En Bolsa
+    </div>
+
+    <div class="container-players-for-team">
+      <div class='container' [dragula]='"another-bag"' [dragulaModel]='playerForTeam'>
+        <div class="content-player" *ngFor='let text of playerForTeam'   [innerHtml]='text.name +" "+ text.surname'  ></div>
+        <div *ngIf="playerForTeam.length === 0" class="content-player"></div>
+      </div>
+    </div>
+
+    <div class="container-players-without-team">
+      <div class='container' [dragula]='"another-bag"' [dragulaModel]='playersWitOutTeam'>
+        <div class="content-player" *ngFor='let text of playersWitOutTeam' [innerHtml]='text.name +" "+ text.surname'></div>
+        <div *ngIf="playersWitOutTeam.length === 0" class="content-player"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
