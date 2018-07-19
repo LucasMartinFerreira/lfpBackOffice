@@ -6,6 +6,19 @@ export class TeamsModel {
   private objectTeam = new EventEmitter();
   private assignPlayerToTeam :string;
   private nameTeam: string;
+  private nameActive: string;
+
+  private  reloadTable= new EventEmitter();
+
+
+  setReloadTable(a : boolean){
+    this.reloadTable.next(a);
+  }
+
+  getReloadTable(){
+    return this.reloadTable.asObservable()
+  }
+
 
   setObjectTeam(team){
     this.objectTeam.next(team);
@@ -37,6 +50,15 @@ export class TeamsModel {
 
   getTeam(){
     return this.assignPlayerToTeam;
+  }
+
+  setViewActive(name:string){
+    this.nameActive = name;
+  }
+
+
+  getViewActive(){
+    return this.nameActive;
   }
 
 }

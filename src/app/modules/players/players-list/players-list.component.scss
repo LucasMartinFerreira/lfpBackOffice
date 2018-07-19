@@ -1,19 +1,10 @@
 table{
   width: 100%;
   th.title-buttons    {
-    display: flex;
-    justify-content: center;
-    height: 55px;
-    align-items: center;
+   text-align: center;
   }
   td.content-buttons{
-    display: flex;
-    justify-content: center;
-    height: 47px;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-
+    text-align: center;
   }
 
   button{

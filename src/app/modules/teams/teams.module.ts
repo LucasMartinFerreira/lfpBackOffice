@@ -13,6 +13,7 @@ import { MatPaginatorModule } from '@angular/material';
 import {ModalConfirm} from "./../../components/modalConfirm/modalConfirm";
 import {ModalConfirmAction} from "./teams-crud/modal-confirm-action/modal-confirm-action";
 import {FooterComponent} from "../../components/footer/footer.component";
+import {UtilsService} from "../../services/utils.service";
 
 
 
@@ -30,7 +31,7 @@ import {FooterComponent} from "../../components/footer/footer.component";
     ModalConfirmAction
   ],
   entryComponents:[ModalConfirm,ModalConfirmAction],
-  providers:[TeamsModel, TeamsService, ModalConfirm,ModalConfirmAction]
+  providers:[TeamsModel, TeamsService, ModalConfirm,ModalConfirmAction, UtilsService]
 
 })
 export class TeamsModule { }

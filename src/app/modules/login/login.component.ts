@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   public username: string;
   public password: string;
+
   constructor(private router : Router, public loginService: LoginService,
               public loginModel : LoginModel,
               private spinner: NgxSpinnerService) { }

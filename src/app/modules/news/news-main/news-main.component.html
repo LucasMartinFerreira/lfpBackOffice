@@ -6,7 +6,7 @@
 </div>
 <div class="content-main"  [ngClass]="{'collapse':stateSidebar}">
  <app-news-list *ngIf="viewActive === 'ListNews'"></app-news-list>
-<app-news-crud *ngIf="viewActive==='CreateNews'"></app-news-crud>
+<app-news-crud [newObject]="newObject"  *ngIf="viewActive==='CreateNews'"></app-news-crud>
 </div>
 <div class="content-footer">
   <app-footer></app-footer>

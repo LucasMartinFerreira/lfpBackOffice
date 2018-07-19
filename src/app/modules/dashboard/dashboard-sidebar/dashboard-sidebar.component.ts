@@ -23,21 +23,23 @@ export class DashboardSidebarComponent implements OnInit {
   }
 
   createTeam(){
-    this.teamsModel.setObjectTeam('');
+    this.teamsModel.setObjectTeam(null);
     this.teamsModel.setnameViewActive('createTeam');
-
+    this.teamsModel.setViewActive('createTeam');
     this.router.navigate(['teamsMain'])
   }
 
   goToLisTeams(){
 
+    this.teamsModel.setViewActive('ListTeams');
     this.teamsModel.setnameViewActive('ListTeams');
     this.router.navigate(['teamsMain']);
 
   }
 
   createPlayer(){
-    this.playersModel.setObjectPlayer('');
+    this.playersModel.setObjectPlayer(null);
+    this.playersModel.setViewActive('CRUDPlayers');
     this.playersModel.setnameViewActive('CRUDPlayers');
     this.router.navigate(['playersMain'])
   }

@@ -7,6 +7,9 @@ import * as moment from 'moment';
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {NewsModel} from "../../../models/news.model";
+import {ModalConfirmAction} from "../../teams/teams-crud/modal-confirm-action/modal-confirm-action";
+import {ModalConfirmActionForNews} from "../news-crud/modal-confirmation/modal-confirm-action-for-news";
+import {Constants} from "../../../services/constants";
 
 
 export interface PeriodicElement {
@@ -31,9 +34,11 @@ export class NewsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public newService: NewsService,
+              public newsModel: NewsModel,
               public spinner: NgxSpinnerService,
               public toastr : ToastrService,
               public router: Router,
+              public dialogService: DialogService,
               public modelNews: NewsModel) { }
 
   ngOnInit() {
@@ -58,7 +63,7 @@ export class NewsListComponent implements OnInit {
         let newDate;
 
         if(dataNews.data[i].date){
-          newDate = moment(dataNews.data[i].date).format('DD-MM-YYYY');
+          newDate = moment(dataNews.data[i].date).format(Constants.formatData);
         }
         newObject = {
           'title' : dataNews.data[i].title,
@@ -85,7 +90,18 @@ export class NewsListComponent implements OnInit {
   }
 
   updateNew(id){
-    alert('Actualizamos la noticia'+ id)
+
+    this.spinner.show();
+    this.newService.getNew(id).subscribe(result=>{
+      this.newsModel.setObjectNew(result.data);
+      this.newsModel.setActiveNewsView('CreateNews');
+      this.spinner.hide();
+    },error=>{
+      this.spinner.hide()
+      console.log(error)
+      this.toastr.error('Error al obtener los datos de una noticia! (' +error.message +')');
+    })
+
   }
 
   /**
@@ -93,15 +109,12 @@ export class NewsListComponent implements OnInit {
    * @param id
    */
   deleteNew(id) {
-    this.newService.deleteNew(id).subscribe(deleteData => {
-      this.toastr.success('Noticia eliminada correctamente!');
-      this.modelNews.setActiveNewsView('ListNews');
-      this.router.navigate(['newsMain'])
-    },error => {
-
-      this.toastr.error('Error al eliminar una noticia!');
-    })
-
+    let dataObject ={
+        title:"Noticias",
+        message : "¿Realmente quieres borrar la noticia?",
+        id: id
+      };
+      this.dialogService.addDialog(ModalConfirmActionForNews,dataObject)
   }
 
 }

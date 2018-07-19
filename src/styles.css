@@ -121,3 +121,25 @@ nested-repeat-example .container span {
   display: block;
   padding: 8px;
 }
+
+.header-content {
+  padding: 5px 0px 5px 20px;
+  width: 90%;
+  font-weight: bold;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+
+label{
+  font-size: 1.4em;
+  margin-bottom: 10px;
+  border: 0;
+  line-height: inherit;
+  color: #333;
+  display: block;
+  width: 100%;
+  padding: 0;
+}
+

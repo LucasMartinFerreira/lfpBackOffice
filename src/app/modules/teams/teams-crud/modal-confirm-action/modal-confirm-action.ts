@@ -5,6 +5,9 @@ import {TeamsService} from "../../../../services/teams/teams.service";
 import {ToastrService} from "ngx-toastr";
 
 import {HttpErrorResponse} from "@angular/common/http";
+import {TeamsModel} from "../../../../models/teams-model";
+import {Router} from "@angular/router";
+import {PlayersModel} from "../../../../models/players.model";
 
 
 export interface ConfirmModel {
@@ -26,7 +29,8 @@ export class ModalConfirmAction  extends DialogComponent<ConfirmModel, boolean>i
   public message;
   public idTeam;
 
-  constructor(public dialogService : DialogService,private spinner: NgxSpinnerService, public teamsService: TeamsService,public toastr: ToastrService) {
+  constructor(public dialogService : DialogService,
+              public teamsModel: TeamsModel, public router : Router, private spinner: NgxSpinnerService, public teamsService: TeamsService,public toastr: ToastrService) {
     super(dialogService);
   }
 
@@ -42,6 +46,7 @@ export class ModalConfirmAction  extends DialogComponent<ConfirmModel, boolean>i
     this.teamsService.deleteTeam(this.idTeam).subscribe(result=>{
       this.toastr.success('Equipo Eliminado correctamente!');
       this.spinner.hide();
+      this.teamsModel.setReloadTable(true);
       this.close();
     },(err: HttpErrorResponse) => {
       this.toastr.error('Ha ocurrido un error al eliminar un equipo!');

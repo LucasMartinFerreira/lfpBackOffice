@@ -6,6 +6,10 @@ import {ToastrService} from "ngx-toastr";
 
 import {HttpErrorResponse} from "@angular/common/http";
 import {PlayersService} from "../../../../services/players/players.service";
+import {TeamsModel} from "../../../../models/teams-model";
+import {Router} from "@angular/router";
+import {PlayersModel} from "../../../../models/players.model";
+import {PlayersListComponent} from "../../players-list/players-list.component";
 
 
 export interface ConfirmModel {
@@ -27,7 +31,7 @@ export class ModalConfirmActionPlayersComponent  extends DialogComponent<Confirm
   public message;
   public idPlayer;
 
-  constructor(public dialogService : DialogService,private spinner: NgxSpinnerService, public playerService: PlayersService,public toastr: ToastrService) {
+  constructor(public dialogService : DialogService, public playersModel: PlayersModel, public router: Router, private spinner: NgxSpinnerService, public playerService: PlayersService,public toastr: ToastrService) {
     super(dialogService);
   }
 
@@ -41,11 +45,14 @@ export class ModalConfirmActionPlayersComponent  extends DialogComponent<Confirm
   confirm(){
     this.spinner.show();
     this.playerService.deletePlayer(this.idPlayer).subscribe(result=>{
-      this.toastr.success('Equipo Eliminado correctamente!');
+      this.toastr.success('Jugador Eliminado correctamente!');
       this.spinner.hide();
+      this.playersModel.setReloadTable(true);
       this.close();
     },(err: HttpErrorResponse) => {
-      this.toastr.error('Ha ocurrido un error al eliminar un equipo!');
+      this.spinner.hide();
+      this.close();
+      this.toastr.error('Ha ocurrido un error al eliminar un jugador!');
     })
 
   }

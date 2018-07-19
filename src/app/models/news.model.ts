@@ -5,6 +5,15 @@ export class NewsModel {
   public nameView;
   public activeNewsView = new EventEmitter();
 
+  public objectNew = new EventEmitter();
+
+  setObjectNew(object){
+    this.objectNew.next(object);
+  }
+
+  getObjectNew(){
+    return this.objectNew.asObservable();
+  }
 
   setActiveNewsView(name: string){
     this.activeNewsView.next(name);

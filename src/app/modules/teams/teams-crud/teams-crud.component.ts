@@ -4,6 +4,7 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {TeamsModel} from "../../../models/teams-model";
 import {Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import {UtilsService} from "../../../services/utils.service";
 
 
 @Component({
@@ -33,13 +34,27 @@ export class TeamsCRUDComponent implements OnInit {
   constructor(public teamsService: TeamsService,
               public router : Router,
               public spinner: NgxSpinnerService, public teamsModel: TeamsModel,
-              public toastr: ToastrService ) {
+              public toastr: ToastrService,
+              public utilsService: UtilsService) {
 
+    this.teamsModel.getObjectTeam().subscribe(result=>{
+      if(result === '' || result === null || result === undefined){
+        this.idTeam ='';
+        this.nameTeam = '';
+        this.photo = '';
+        this.stadium = '';
+        this.coach = '';
+        this.president = '';
+        this.history.goals ='';
+        this.history.titles = '';
+      }
+    });
   }
 
   ngOnInit() {
+
     console.log('Tenemos el objecto Equipo', this.team)
-    if(this.team !== ""){
+    if(this.team !== "" && this.team !== null){
       this.idTeam = this.team._id;
       this.nameTeam = this.team.name;
       this.photo = this.team.shield;
@@ -48,6 +63,8 @@ export class TeamsCRUDComponent implements OnInit {
       this.president = this.team.president;
       this.history.goals = this.team.history.goals;
       this.history.titles = this.team.history.titles;
+    }else{
+      this.team = null
     }
 
   }
@@ -55,12 +72,14 @@ export class TeamsCRUDComponent implements OnInit {
 
   createTeam(){
 
-    this.spinner.show()
+    this.spinner.show();
 
-    console.log('Que estamos enviando...',this.photo)
+
 
     let urlPhoto = this.photo;
-    this.photo = urlPhoto.replace('data:image/png;base64,','');
+
+
+    this.photo = this.utilsService.getStringPhoto(urlPhoto);
 
     let body={
       "name": this.nameTeam,
@@ -84,6 +103,9 @@ export class TeamsCRUDComponent implements OnInit {
       this.spinner.hide();
     },error=>{
       this.spinner.hide()
+
+      this.toastr.error('Error: !'+ error.message);
+
       console.log('Error al crear el Equipo')
     })
 
@@ -97,7 +119,7 @@ export class TeamsCRUDComponent implements OnInit {
     if(this.flagEditPhoto){
       this.getValuePhotoUpload();
       let urlPhoto = this.photo;
-      this.photo = urlPhoto.replace('data:image/png;base64,','');
+      this.photo = this.utilsService.getStringPhoto(urlPhoto);
       body ={
         "name": this.nameTeam,
         "shield":this.photo,
@@ -159,6 +181,7 @@ export class TeamsCRUDComponent implements OnInit {
 
 
 
+      this.valuePhoto = this;
 
       reader.onload = (event:any) => {
         console.log('Tenemos la foto....')

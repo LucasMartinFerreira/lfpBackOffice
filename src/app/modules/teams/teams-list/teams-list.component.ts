@@ -48,6 +48,10 @@ export class TeamsListComponent implements OnInit {
               public playersModel: PlayersModel,
               public router : Router) {
 
+
+    this.teamsModel.getReloadTable().subscribe(result=>{
+      this.getAllTeams();
+    });
   }
 
   ngOnInit() {
@@ -82,11 +86,11 @@ export class TeamsListComponent implements OnInit {
     })
   }
 
-  deleteTeam(idTeam){
+  deleteTeam(idTeam , nameTeam){
 
     let dataObject ={
-      title:"Titulo",
-      message : "Contenido del mensaje",
+      title:"Eliminar",
+      message : "¿Desea eliminar el equipo "+ nameTeam + " ?",
       idTeam: idTeam
     };
 

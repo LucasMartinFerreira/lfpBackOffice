@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {PlayersService} from "../../../services/players/players.service";
 import {PlayersModel} from "../../../models/players.model";
 import {Router} from "@angular/router";
+import {UtilsService} from "../../../services/utils.service";
 
 @Component({
   selector: 'app-players-crud',
@@ -13,10 +14,13 @@ import {Router} from "@angular/router";
 export class PlayersCrudComponent implements OnInit {
 
   public characteristics :any;
-  public age: number;
-  public height : number;
-  public weight : number;
-  public statistics: any;
+  public age: string;
+  public height : string;
+  public weight : string;
+  public statistics: any = {
+    "goals": '',
+    "titles": ''
+  };
   public team: number;
   public strengths: any;
   public weaknesses: any;
@@ -27,21 +31,28 @@ export class PlayersCrudComponent implements OnInit {
   public teamName; string;
   public idPlayer: number;
   private file:any;
+  public valuePhoto:any;
+  public position: string;
 
 
   private flagEditPhoto: boolean = false;
 
   private base64textString: string= "";
 
+
+
   @Input() player ;
 
   constructor(private spinner: NgxSpinnerService,
               public toastr: ToastrService,
               public router : Router,
+              public utilsService: UtilsService,
               public playerService: PlayersService,
               public playerModel: PlayersModel
   ) {
+
     this.playerModel.getObjectPlayer().subscribe(result=>{
+
       if(result === '' || result === null || result === undefined){
         this.name= '';
         this.secondname= '';
@@ -50,12 +61,15 @@ export class PlayersCrudComponent implements OnInit {
         this.teamName='';
         this.weaknesses= '';
         this.strengths= '';
-        this.statistics='';
-        this.characteristics ={
-          "age":"",
-          "height":"",
-          "weight":""
-        }
+        this.position = '';
+        this.statistics={
+          "goals": '',
+          "titles": ''
+        };
+        this.age = '';
+        this.height = "";
+        this.weight = ""
+
       }
     });
   }
@@ -64,18 +78,18 @@ export class PlayersCrudComponent implements OnInit {
   ngOnInit() {
 
 
-    console.log('Tenemos en el CRUD los datos del jugador....', this.player)
     if(this.player !== '' && this.player !== null && this.player !== undefined){
 
       if(this.player.characteristics !== undefined && this.player.characteristics!=='' && this.player.characteristics !==null){
-        this.age = this.player.characteristics.age;
-        this.height = this.player.characteristics.height;
-        this.weight = this.player.characteristics.weight;
+        this.age = this.player.age;
+        this.height = this.player.height;
+        this.weight = this.player.weight;
       }
       // this.characteristics  = this.player.characteristics;
       this.statistics = this.player.statistics;
       if(this.player.team !== undefined && this.player.team!=='' && this.player.team !==null){
         this.team = this.player.team;
+        this.teamName = this.player.team[0].name;
       }
       this.strengths = this.player.strengths;
       this.weaknesses = this.player.weaknesses;
@@ -83,16 +97,22 @@ export class PlayersCrudComponent implements OnInit {
       this.secondname = this.player.secondname;
       this.nationality = this.player.nationality;
       this.photo = this.player.photo;
-      this.teamName = this.player.teamName;
+
       this.idPlayer = this.player._id;
+      this.position = this.player.position;
+
+    }else{
+      this.player = null;
     }
   }
 
 
   createPlayer(){
     this.spinner.show();
+
+    this.getValuePhotoUpload();
     let urlPhoto = this.photo;
-    this.photo = urlPhoto.replace('data:image/png;base64,','');
+    this.photo = this.utilsService.getStringPhoto(urlPhoto);
 
     let body = {
       "name" :this.name,
@@ -100,11 +120,14 @@ export class PlayersCrudComponent implements OnInit {
       "nationality" :this.nationality,
       "photo": this.photo,
       "teamName": "",
-      "weaknesses":[],
-      "strengths":[],
+      "team": null,
+      "weaknesses":this.weaknesses,
+      "strengths": this.strengths,
       "statistics":{
-        teamsPlayed:['Real Madrid']
+        "goals": this.statistics.goals,
+        "titles": this.statistics.titles
       },
+      "position": this.position,
       "characteristics" :{
         "age": this.age,
         "height": this.height,
@@ -112,7 +135,7 @@ export class PlayersCrudComponent implements OnInit {
       }
     };
 
-    console.log('Datos que enviamos', body);
+
     this.playerService.createPlayer(body).subscribe(resultCreated=>{
       this.toastr.success('Jugador creado correctamente!');
       this.playerModel.setnameViewActive('ListPlayers');
@@ -120,7 +143,7 @@ export class PlayersCrudComponent implements OnInit {
       this.spinner.hide();
     },error => {
       this.spinner.hide();
-      this.toastr.success('Error al crear el jugador!');
+      this.toastr.error('Error al crear el jugador!');
     })
 
   }
@@ -132,17 +155,21 @@ export class PlayersCrudComponent implements OnInit {
     if(this.flagEditPhoto){
       this.getValuePhotoUpload();
       let urlPhoto = this.photo;
-      this.photo = urlPhoto.replace('data:image/png;base64,','');
+      this.photo = this.utilsService.getStringPhoto(urlPhoto);
+
       body = {
+        "team": this.team,
         "name" :this.name,
         "secondname": this.secondname,
         "nationality" :this.nationality,
         "photo": this.photo,
         "teamName": "",
-        "weaknesses":"",
-        "strengths":"",
+        "position": this.position,
+        "weaknesses":this.weaknesses,
+        "strengths":this.strengths,
         "statistics":{
-          teamsPlayed:['Real Madrid']
+          "goals": this.statistics.goals,
+          "titles": this.statistics.titles
         },
         "characteristics" :{
           "age": this.age,
@@ -152,14 +179,17 @@ export class PlayersCrudComponent implements OnInit {
       };
     }else{
       body = {
+        "team": this.team,
         "name" :this.name,
         "secondname": this.secondname,
         "nationality" :this.nationality,
         "teamName": "",
-        "weaknesses":"",
-        "strengths":"",
+        "position": this.position,
+        "weaknesses":this.weaknesses,
+        "strengths":this.strengths,
         "statistics":{
-          teamsPlayed:['Real Madrid']
+          "goals": this.statistics.goals,
+          "titles": this.statistics.titles
         },
         "characteristics" :{
           "age": this.age,
@@ -178,9 +208,10 @@ export class PlayersCrudComponent implements OnInit {
       this.spinner.hide();
     },error => {
       this.spinner.hide();
-      this.toastr.success('Error al actualizar el jugador!');
+      this.toastr.error('Error al actualizar el jugador!');
     })
   }
+
 
 
   onFileChanged(event){
@@ -189,25 +220,13 @@ export class PlayersCrudComponent implements OnInit {
     this.flagEditPhoto = true;
 
     this.file = event.target.files[0];
-
-    console.log('File', this.file)
-
     if (this.file) {
       let reader = new FileReader();
-
-
-
-
       reader.onload = (event:any) => {
-        console.log('Tenemos la foto....')
         this.photo = event.target.result;
-
       };
-
-      console.log('Valor de la Photo?', this.photo);
-
+      this.valuePhoto = this;
       reader.readAsDataURL(event.target.files[0]);
-
     }
   }
 
@@ -217,7 +236,7 @@ export class PlayersCrudComponent implements OnInit {
 
       let reader = new FileReader();
 
-      reader.onload = this._handleReaderLoaded.bind(this.photo);
+      reader.onload = this._handleReaderLoaded.bind(this.valuePhoto);
 
       reader.readAsBinaryString(this.file);
 

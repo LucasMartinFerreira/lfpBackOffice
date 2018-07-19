@@ -13,13 +13,15 @@ export class TeamsMainComponent implements OnInit {
   public teamObject: any = null;
 
   constructor(public teamsModel: TeamsModel) {
+
     this.teamsModel.getNameViewActive().subscribe(result=>{
       let view = result;
+      console.log('Lanzamos vista')
       this.viewActive = view;
     });
 
     this.teamsModel.getObjectTeam().subscribe(result=>{
-      console.log('Tenemos los datos del equipo:', result)
+
       this.teamObject = result;
     });
 
@@ -27,7 +29,9 @@ export class TeamsMainComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    if( this.teamsModel.getViewActive() !== undefined){
+      this.viewActive= this.teamsModel.getViewActive();
+    }
   }
 
   openCloseSidebar(event){
