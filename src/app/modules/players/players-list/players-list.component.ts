@@ -6,6 +6,7 @@ import { ModalConfirmAction } from './../../../modules/teams/teams-crud/modal-co
 import {PlayersService} from "../../../services/players/players.service";
 import {PeriodicElement} from "../../teams/teams-list/teams-list.component";
 import {PlayersModel} from "../../../models/players.model";
+import {ModalConfirmActionPlayersComponent} from "../players-crud/modal-confirm-action/modal-confirm-action-players.component";
 
 
 
@@ -33,6 +34,10 @@ export class PlayersListComponent implements OnInit {
               public playersModel : PlayersModel,
               public dialogService: DialogService) {
 
+    this.playersModel.getReloadTable().subscribe(result=>{
+       this.getAllPlayers();
+    });
+
   }
 
   ngOnInit() {
@@ -46,6 +51,7 @@ export class PlayersListComponent implements OnInit {
   }
 
   getAllPlayers(){
+
   this.spinner.show();
     this.playersService.getPlayers().subscribe(resultPlayers=>{
 
@@ -58,7 +64,7 @@ export class PlayersListComponent implements OnInit {
         if(resultPlayers.data[i].team ==='' || resultPlayers.data[i].team === undefined || resultPlayers.data[i].team === null){
           resultPlayers.data[i].teamName = 'Jugador en Mercado'
         }else{
-          resultPlayers.data[i].teamName = resultPlayers.data[i].team.name;
+          resultPlayers.data[i].teamName = resultPlayers.data[i].team[0].name;
         }
         this.newArray.push(this.objectPlayers);
       }
@@ -93,15 +99,16 @@ export class PlayersListComponent implements OnInit {
   }
 
 
-  deletePlayer(idPlayer: number){
+  deletePlayer(idPlayer: number, name: string){
 
+    console.log('id del jugador', idPlayer)
     let dataObject ={
-      title:"Borrado de JUgadores",
-      message : "¿Desea borrar el jugador?",
-      idTeam: idPlayer
+      title:"Borrado de Jugadores",
+      message : "¿Desea borrar el jugador "+ name + "?",
+      idPlayer: idPlayer
     };
 
-    this.dialogService.addDialog(ModalConfirmAction,dataObject);
+    this.dialogService.addDialog(ModalConfirmActionPlayersComponent,dataObject);
   }
 }
 

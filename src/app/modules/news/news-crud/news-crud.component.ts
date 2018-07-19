@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {NewsModel} from "../../../models/news.model";
 import * as moment from 'moment';
 import {Constants} from "../../../services/constants";
+import {UtilsService} from "../../../services/utils.service";
 
 @Component({
   selector: 'app-news-crud',
@@ -35,7 +36,9 @@ export class NewsCrudComponent implements OnInit {
 
   @Input() newObject ;
 
-  constructor(public spinner: NgxSpinnerService, public newsService: NewsService, public toastr: ToastrService, public router : Router, public modelNews: NewsModel) { }
+  constructor(public spinner: NgxSpinnerService,
+              public utilsService: UtilsService,
+              public newsService: NewsService, public toastr: ToastrService, public router : Router, public modelNews: NewsModel) { }
 
   ngOnInit() {
 
@@ -59,7 +62,8 @@ export class NewsCrudComponent implements OnInit {
     this.getValuePhotoUpload();
 
     let urlPhoto = this.photo;
-    this.photo = urlPhoto.replace('data:image/png;base64,','');
+    this.photo = this.utilsService.getStringPhoto(urlPhoto);
+
 
     let body = {
       'title': this.title,
@@ -90,7 +94,7 @@ export class NewsCrudComponent implements OnInit {
     if(this.flagEditPhoto){
       this.getValuePhotoUpload();
       let urlPhoto = this.photo;
-      this.photo = urlPhoto.replace('data:image/png;base64,','');
+      this.photo = this.utilsService.getStringPhoto(urlPhoto);
       body = {
         'title': this.title,
         'date': this.date,
@@ -139,14 +143,14 @@ export class NewsCrudComponent implements OnInit {
       let reader = new FileReader();
 
       reader.onload = (event:any) => {
-        console.log('Tenemos la foto....')
+
         this.photo = event.target.result;
 
       };
 
       this.valuePhoto = this;
 
-      console.log('Valor de la Photo?', this.photo);
+
 
       reader.readAsDataURL(event.target.files[0]);
 

@@ -1,7 +1,11 @@
 <div class="content-create-player">
   <div class="header-content">
-    <label class="label-title">
-      Creación/Edición de un Jugador
+    <label *ngIf="player === null "  class="label-title">
+      Creación de un Jugador
+    </label>
+
+    <label *ngIf="player !== null "  class="label-title">
+      Edición de un Jugador
     </label>
   </div>
   <span class="line-border-bottom"></span>
@@ -28,8 +32,12 @@
         <input id="nationality" type="text" name="nationality" placeholder="Nacionalidad" [(ngModel)]="nationality">
       </div>
 
-
       <div>
+        <label for="position">Demarcación:</label>
+        <input id="position" type="text" name="position" placeholder="Demarcación" [(ngModel)]="position">
+      </div>
+
+      <div *ngIf="player !== null ">
         <label for="teamName">Equipo Actual</label>
         <input [disabled]="true" id= "teamName" type="text" name="teamName" placeholder="Equipo Actual" [(ngModel)]="teamName">
       </div>
@@ -80,12 +88,12 @@
         </div>
 
         <div>
-          <label for="heightPlayer">Altura:</label>
+          <label for="heightPlayer">Altura (cm):</label>
           <input id="heightPlayer" type="text" name="heightPlayer" placeholder="Altura" [(ngModel)]="height">
         </div>
 
         <div>
-          <label for="weightPlayer">Peso:</label>
+          <label for="weightPlayer">Peso (kg):</label>
           <input id="weightPlayer" type="text" name="weightPlayer" placeholder="Peso" [(ngModel)]="weight">
         </div>
 
@@ -97,11 +105,11 @@
 
     <div  class="footer-buttons">
 
-      <div *ngIf="player === '' " class="footer-buttons">
-        <button (click)="createPlayer()">Crear Equipo</button>
+      <div *ngIf="player === null " class="footer-buttons">
+        <button (click)="createPlayer()">Crear Jugador</button>
       </div>
-      <div *ngIf="player !== '' " class="footer-buttons">
-        <button (click)="updatePlayer()">Editar Equipo</button>
+      <div *ngIf="player !== null " class="footer-buttons">
+        <button (click)="updatePlayer()">Editar Jugador</button>
       </div>
     </div>
 

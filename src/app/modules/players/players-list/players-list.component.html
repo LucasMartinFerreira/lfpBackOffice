@@ -1,3 +1,11 @@
+<div class="header-content">
+  <label  class="label-title">
+    Listado de Jugadores
+  </label>
+</div>
+<span class="line-border-bottom"></span>
+
+
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Busqueda de jugador">
 </mat-form-field>
@@ -33,8 +41,9 @@
   <ng-container matColumnDef="actions">
     <th class="title-buttons" mat-header-cell *matHeaderCellDef> Acciones  </th>
     <td class="content-buttons" mat-cell *matCellDef="let element">
+
       <button (click)="updatePlayer(element._id)" md-raised-button >Edit</button>
-      <button (click)="deletePlayer(element._id)" md-raised-button >Eliminar</button>
+      <button (click)="deletePlayer(element._id, element.name )" md-raised-button >Eliminar</button>
     </td>
 
   </ng-container>

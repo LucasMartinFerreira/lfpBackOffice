@@ -4,6 +4,7 @@ import {ToastrService} from "ngx-toastr";
 import {PlayersService} from "../../../services/players/players.service";
 import {PlayersModel} from "../../../models/players.model";
 import {Router} from "@angular/router";
+import {UtilsService} from "../../../services/utils.service";
 
 @Component({
   selector: 'app-players-crud',
@@ -13,9 +14,9 @@ import {Router} from "@angular/router";
 export class PlayersCrudComponent implements OnInit {
 
   public characteristics :any;
-  public age: number;
-  public height : number;
-  public weight : number;
+  public age: string;
+  public height : string;
+  public weight : string;
   public statistics: any = {
     "goals": '',
     "titles": ''
@@ -31,6 +32,7 @@ export class PlayersCrudComponent implements OnInit {
   public idPlayer: number;
   private file:any;
   public valuePhoto:any;
+  public position: string;
 
 
   private flagEditPhoto: boolean = false;
@@ -44,10 +46,13 @@ export class PlayersCrudComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService,
               public toastr: ToastrService,
               public router : Router,
+              public utilsService: UtilsService,
               public playerService: PlayersService,
               public playerModel: PlayersModel
   ) {
+
     this.playerModel.getObjectPlayer().subscribe(result=>{
+
       if(result === '' || result === null || result === undefined){
         this.name= '';
         this.secondname= '';
@@ -56,15 +61,15 @@ export class PlayersCrudComponent implements OnInit {
         this.teamName='';
         this.weaknesses= '';
         this.strengths= '';
+        this.position = '';
         this.statistics={
-          "goals": this.statistics.goals,
-          "titles": this.statistics.titles
+          "goals": '',
+          "titles": ''
         };
-        this.characteristics ={
-          "age":"",
-          "height":"",
-          "weight":""
-        }
+        this.age = '';
+        this.height = "";
+        this.weight = ""
+
       }
     });
   }
@@ -73,13 +78,12 @@ export class PlayersCrudComponent implements OnInit {
   ngOnInit() {
 
 
-
     if(this.player !== '' && this.player !== null && this.player !== undefined){
 
       if(this.player.characteristics !== undefined && this.player.characteristics!=='' && this.player.characteristics !==null){
-        this.age = this.player.characteristics.age;
-        this.height = this.player.characteristics.height;
-        this.weight = this.player.characteristics.weight;
+        this.age = this.player.age;
+        this.height = this.player.height;
+        this.weight = this.player.weight;
       }
       // this.characteristics  = this.player.characteristics;
       this.statistics = this.player.statistics;
@@ -95,7 +99,10 @@ export class PlayersCrudComponent implements OnInit {
       this.photo = this.player.photo;
 
       this.idPlayer = this.player._id;
+      this.position = this.player.position;
 
+    }else{
+      this.player = null;
     }
   }
 
@@ -105,7 +112,7 @@ export class PlayersCrudComponent implements OnInit {
 
     this.getValuePhotoUpload();
     let urlPhoto = this.photo;
-    this.photo = urlPhoto.replace('data:image/png;base64,','');
+    this.photo = this.utilsService.getStringPhoto(urlPhoto);
 
     let body = {
       "name" :this.name,
@@ -120,6 +127,7 @@ export class PlayersCrudComponent implements OnInit {
         "goals": this.statistics.goals,
         "titles": this.statistics.titles
       },
+      "position": this.position,
       "characteristics" :{
         "age": this.age,
         "height": this.height,
@@ -147,7 +155,7 @@ export class PlayersCrudComponent implements OnInit {
     if(this.flagEditPhoto){
       this.getValuePhotoUpload();
       let urlPhoto = this.photo;
-      this.photo = urlPhoto.replace('data:image/png;base64,','');
+      this.photo = this.utilsService.getStringPhoto(urlPhoto);
 
       body = {
         "team": this.team,
@@ -156,6 +164,7 @@ export class PlayersCrudComponent implements OnInit {
         "nationality" :this.nationality,
         "photo": this.photo,
         "teamName": "",
+        "position": this.position,
         "weaknesses":this.weaknesses,
         "strengths":this.strengths,
         "statistics":{
@@ -175,6 +184,7 @@ export class PlayersCrudComponent implements OnInit {
         "secondname": this.secondname,
         "nationality" :this.nationality,
         "teamName": "",
+        "position": this.position,
         "weaknesses":this.weaknesses,
         "strengths":this.strengths,
         "statistics":{

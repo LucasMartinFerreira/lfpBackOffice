@@ -28,6 +28,7 @@ export class PlayersMainComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if( this.playersModel.getViewActive() !== undefined){
       this.viewActive= this.playersModel.getViewActive();
     }
