@@ -20,7 +20,7 @@ export class NewsService {
   }
 
   createNew(body){
-    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/news',body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/news',body,{headers: Header.getGeneralHeaderMultipart()});
   }
 
   deleteNew(idNew){
@@ -28,6 +28,6 @@ export class NewsService {
   }
 
   public updateNew(idNew,body){
-    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/news/'+idNew, body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/news/'+idNew, body,{headers: Header.getGeneralHeaderMultipart()});
   }
 }

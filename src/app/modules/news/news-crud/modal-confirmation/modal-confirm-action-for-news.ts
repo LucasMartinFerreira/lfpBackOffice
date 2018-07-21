@@ -50,6 +50,7 @@ export class ModalConfirmActionForNews  extends DialogComponent<ConfirmModel, bo
       this.spinner.hide();
       this.modelNews.setActiveNewsView('ListNews');
       this.router.navigate(['newsMain'])
+      this.close();
     },error => {
       this.spinner.hide();
       this.toastr.error('Error al eliminar una noticia! ('+error.message+')');

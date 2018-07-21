@@ -64,7 +64,12 @@ export class PlayersListComponent implements OnInit {
         if(resultPlayers.data[i].team ==='' || resultPlayers.data[i].team === undefined || resultPlayers.data[i].team === null){
           resultPlayers.data[i].teamName = 'Jugador en Mercado'
         }else{
-          resultPlayers.data[i].teamName = resultPlayers.data[i].team[0].name;
+          if(resultPlayers.data[i].team[0] !== undefined){
+            resultPlayers.data[i].teamName = resultPlayers.data[i].team[0].name;
+          }else{
+            resultPlayers.data[i].teamName = 'Sin Equipo';
+          }
+
         }
         this.newArray.push(this.objectPlayers);
       }

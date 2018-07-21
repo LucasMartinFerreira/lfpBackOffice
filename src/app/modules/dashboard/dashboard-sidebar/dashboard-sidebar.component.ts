@@ -51,6 +51,7 @@ export class DashboardSidebarComponent implements OnInit {
   }
 
   createNews(){
+    this.newsModel.setObjectNew(null);
     this.newsModel.setActiveNewsView('CreateNews');
     this.newsModel.setNameView('CreateNews');
     this.router.navigate(['newsMain']);

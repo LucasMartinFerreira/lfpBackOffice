@@ -1,7 +1,11 @@
 <div class="content-create-news">
   <div class="header-content">
-    <label class="label-title">
-      Creación/Edición de una Noticia
+    <label *ngIf="newObject === null " class="label-title">
+      Creación de una Noticia
+    </label>
+
+    <label *ngIf="newObject !== null " class="label-title">
+        Edición de una Noticia
     </label>
   </div>
   <span class="line-border-bottom"></span>

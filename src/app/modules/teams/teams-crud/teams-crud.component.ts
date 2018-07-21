@@ -23,11 +23,8 @@ export class TeamsCRUDComponent implements OnInit {
   public history: any = {'goals':'',titles:''};
   private valuePhoto:any;
   private file:any;
-  private reader: any;
-
+  public formData;
   private flagEditPhoto: boolean = false;
-
-  private base64textString: string= "";
 
   @Input() team ;
 
@@ -53,16 +50,32 @@ export class TeamsCRUDComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log('Tenemos el objecto Equipo', this.team)
+    this.formData = new FormData();
+
     if(this.team !== "" && this.team !== null){
       this.idTeam = this.team._id;
       this.nameTeam = this.team.name;
       this.photo = this.team.shield;
+
+
+      if(this.team.shield !== undefined && this.team.shield !=='' && this.team.shield!==null){
+        this.photo = this.team.shield;
+      }else{
+        this.photo ="";
+      }
+
       this.stadium = this.team.stadium;
       this.coach = this.team.coach;
       this.president = this.team.president;
-      this.history.goals = this.team.history.goals;
-      this.history.titles = this.team.history.titles;
+
+      if(this.team.history !== undefined && this.team.history !=='' && this.team.history!==null){
+        this.history.goals =  this.team.history.goals
+        this.history.titles =   this.team.history.titles;
+      }else{
+        this.history.goals ='';
+        this.history.titles = '';
+      }
+
     }else{
       this.team = null
     }
@@ -74,30 +87,11 @@ export class TeamsCRUDComponent implements OnInit {
 
     this.spinner.show();
 
+    this.validateForm();
 
+    this.teamsService.createTeam(this.formData).subscribe(result =>{
 
-    let urlPhoto = this.photo;
-
-
-    this.photo = this.utilsService.getStringPhoto(urlPhoto);
-
-    let body={
-      "name": this.nameTeam,
-      "shield":this.photo,
-      "stadium": this.stadium,
-      "history":{
-        "goals": this.history.goals,
-        "titles": this.history.titles
-      },
-      "coach": this.coach,
-      "president": this.president
-    };
-
-    console.log('Body que enviamos...', body)
-    this.teamsService.createTeam(body).subscribe(result =>{
-      console.log('Equipo Creado correctamente')
       this.toastr.success('Equipo Creado correctamente!');
-
       this.teamsModel.setnameViewActive('ListTeams');
       this.router.navigate(['teamsMain'])
       this.spinner.hide();
@@ -113,59 +107,25 @@ export class TeamsCRUDComponent implements OnInit {
 
   editTeam(){
 
-    let body;
     this.spinner.show();
 
-    if(this.flagEditPhoto){
-      this.getValuePhotoUpload();
-      let urlPhoto = this.photo;
-      this.photo = this.utilsService.getStringPhoto(urlPhoto);
-      body ={
-        "name": this.nameTeam,
-        "shield":this.photo,
-        "stadium": this.stadium,
-        "history":{
-          "goals": this.history.goals,
-          "titles": this.history.titles
-        },
-        "coach": this.coach,
-        "president": this.president
-      };
-    }else{
-      body ={
-        "name": this.nameTeam,
-        "stadium": this.stadium,
-        "history":{
-          "goals": this.history.goals,
-          "titles": this.history.titles
-        },
-        "coach": this.coach,
-        "president": this.president
-      };
-    }
+    this.validateForm();
 
     let idTeam = this.idTeam;
 
-
-
-    console.log('Editamos el equipo:', idTeam);
-    console.log('Body que enviamos', body)
-    this.teamsService.updateTeam(idTeam,body).subscribe(result=>{
+    this.teamsService.updateTeam(idTeam, this.formData).subscribe(result=>{
       this.toastr.success('Equipo actualizado correctamente!');
       this.teamsModel.setnameViewActive('ListTeams');
       this.router.navigate(['teamsMain'])
       this.spinner.hide();
     },error => {
       this.spinner.hide();
-      alert('Error al actualizar')
+      this.toastr.error('Erroral actualizar el equipo!');
       console.log('Error al editar el equipo');
     })
 
   }
 
-  prepareUpdateTeam(){
-
-  }
 
   onFileChanged(event){
 
@@ -174,48 +134,54 @@ export class TeamsCRUDComponent implements OnInit {
 
     this.file = event.target.files[0];
 
-    console.log('File', this.file)
+    this.formData.append('shield', this.file );
 
     if (this.file) {
       let reader = new FileReader();
-
-
-
       this.valuePhoto = this;
 
-      reader.onload = (event:any) => {
-        console.log('Tenemos la foto....')
+      reader.onload = (event: any) => {
         this.photo = event.target.result;
-
+        // this.formData.append('shield', this.photo);
       };
 
-      console.log('Valor de la Photo?', this.photo);
+      // console.log('Valor de la Photo?', this.photo);
 
       reader.readAsDataURL(event.target.files[0]);
 
     }
   }
 
+  validateForm(){
 
-  getValuePhotoUpload(){
-
-    if (this.file) {
-
-      let reader = new FileReader();
-
-      reader.onload = this._handleReaderLoaded.bind(this.valuePhoto);
-
-      reader.readAsBinaryString(this.file);
-
+    if(this.nameTeam !== '' && this.nameTeam !== null && this.nameTeam !== undefined){
+      this.formData.append('name', this.nameTeam );
     }
+
+    if(this.stadium !== '' && this.stadium !== null && this.stadium !== undefined){
+      this.formData.append('stadium', this.stadium );
+    }
+
+    if(this.history.goals  !== '' && this.history.goals  !== null && this.history.goals  !== undefined){
+      this.formData.append('history.goals', this.history.goals );
+    }
+
+    if(this.history.titles !== '' && this.history.titles !== null && this.history.titles !== undefined){
+      this.formData.append('history.titles', this.history.titles);
+    }
+
+    if(this.coach !== '' && this.coach !== null && this.coach !== undefined){
+      this.formData.append('coach', this.coach );
+    }
+
+    if(this.president !== '' && this.president !== null && this.president !== undefined){
+      this.formData.append('president', this.president );
+    }
+
+
+
+
+
+
   }
-
-
-  _handleReaderLoaded(readerEvt) {
-    let binaryString = readerEvt.target.result;
-    this.base64textString= btoa(binaryString);
-    this.photo = this.base64textString;
-  }
-
-
 }

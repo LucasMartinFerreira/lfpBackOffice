@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modules/login/login.component';
@@ -72,4 +72,10 @@ import {NewsModule} from "./modules/news/news.module";
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+  constructor(applicationRef: ApplicationRef) {
+    //for ng2-bootstrap-modal in angualar 5
+    Object.defineProperty(applicationRef, '_rootComponents', {get: () => applicationRef['components']});
+  }
+
+}

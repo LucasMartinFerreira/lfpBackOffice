@@ -25,7 +25,7 @@ export class NewsCrudComponent implements OnInit {
   public link: string;
   public new: string = '';
   private id : number;
-
+  public formData;
   private file:any;
   private flagEditPhoto: boolean = false;
 
@@ -38,13 +38,35 @@ export class NewsCrudComponent implements OnInit {
 
   constructor(public spinner: NgxSpinnerService,
               public utilsService: UtilsService,
-              public newsService: NewsService, public toastr: ToastrService, public router : Router, public modelNews: NewsModel) { }
+              public newsService: NewsService,
+              public toastr: ToastrService,
+              public router : Router,
+              public modelNews: NewsModel) {
+
+    this.modelNews.getObjectNew().subscribe(result=>{
+      this.title = '';
+      this.date = '';
+      this.subtitle = '';
+      this.reporter = '';
+      this.text = '';
+      this.link = '';
+      this.photo= '';
+    });
+
+
+
+  }
 
   ngOnInit() {
 
+
+
+
+    this.formData = new FormData();
+
     if(this.newObject !== '' && this.newObject !== null && this.newObject !== undefined){
       this.title = this.newObject.title;
-      this.date = moment(this.newObject.title).format(Constants.formatData);
+      this.date = moment(this.newObject.date).format(Constants.formatData);
       this.subtitle = this.newObject.subtitle;
       this.reporter = this.newObject.reporter;
       this.text = this.newObject.text;
@@ -59,23 +81,16 @@ export class NewsCrudComponent implements OnInit {
 
     this.spinner.show();
 
-    this.getValuePhotoUpload();
+    this.formData.append('title', this.title );
+    this.formData.append('date', moment.utc(this.date).format());
+    this.formData.append('subtitle', this.subtitle );
+    this.formData.append('reporter', this.reporter );
+    this.formData.append('text', this.text );
+    this.formData.append('link', this.link );
 
-    let urlPhoto = this.photo;
-    this.photo = this.utilsService.getStringPhoto(urlPhoto);
+    console.log('Creams...',moment.utc(this.date).format())
 
-
-    let body = {
-      'title': this.title,
-      'date': this.date,
-      'subtitle': this.subtitle,
-      'reporter': this.reporter,
-      'text': this.text,
-      'link': this.link,
-      "photo": this.photo
-    }
-
-    this.newsService.createNew(body).subscribe(resultData=>{
+    this.newsService.createNew(this.formData).subscribe(resultData=>{
       this.toastr.success('Noticia Creada correctamente!');
       this.modelNews.setActiveNewsView('ListNews');
       this.router.navigate(['newsMain'])
@@ -88,35 +103,20 @@ export class NewsCrudComponent implements OnInit {
 
 
   updateNew(){
-    let body;
+
 
     this.spinner.show();
-    if(this.flagEditPhoto){
-      this.getValuePhotoUpload();
-      let urlPhoto = this.photo;
-      this.photo = this.utilsService.getStringPhoto(urlPhoto);
-      body = {
-        'title': this.title,
-        'date': this.date,
-        'subtitle': this.subtitle,
-        'reporter': this.reporter,
-        'text': this.text,
-        'link': this.link,
-        "photo": this.photo
-      }
 
-    }else{
-       body = {
-        'title': this.title,
-        'date': this.date,
-        'subtitle': this.subtitle,
-        'reporter': this.reporter,
-        'text': this.text,
-        'link': this.link
-      }
-    }
+    this.formData.append('title', this.title );
+    this.formData.append('date', moment.utc(this.date).format());
+    this.formData.append('subtitle', this.subtitle );
+    this.formData.append('reporter', this.reporter );
+    this.formData.append('text', this.text );
+    this.formData.append('link', this.link );
 
-    this.newsService.updateNew(this.id,body).subscribe(resultData=>{
+
+
+    this.newsService.updateNew(this.id,this.formData).subscribe(resultData=>{
       this.toastr.success('Noticia Actualizada correctamente!');
       this.modelNews.setActiveNewsView('ListNews');
       this.router.navigate(['newsMain'])
@@ -137,7 +137,7 @@ export class NewsCrudComponent implements OnInit {
 
     this.file = event.target.files[0];
 
-    console.log('File', this.file)
+    this.formData.append('photo', this.file );
 
     if (this.file) {
       let reader = new FileReader();
@@ -157,25 +157,6 @@ export class NewsCrudComponent implements OnInit {
     }
   }
 
-
-  getValuePhotoUpload(){
-
-    if (this.file) {
-
-      let reader = new FileReader();
-
-      reader.onload = this._handleReaderLoaded.bind(this.valuePhoto);
-
-      reader.readAsBinaryString(this.file);
-
-    }
-  }
-
-  _handleReaderLoaded(readerEvt) {
-    let binaryString = readerEvt.target.result;
-    this.base64textString= btoa(binaryString);
-    this.photo = this.base64textString;
-  }
 
 
 }

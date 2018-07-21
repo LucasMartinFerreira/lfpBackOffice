@@ -21,4 +21,16 @@ export class Header {
     return headers;
 
   }
+
+
+  public static getGeneralHeaderMultipart(): HttpHeaders {
+
+
+    let token =  new LoginModel();
+
+    let headers = new HttpHeaders()
+      .set('authorization', token.getToken())
+    return headers;
+
+  }
 }

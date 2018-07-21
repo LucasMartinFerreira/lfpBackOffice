@@ -26,7 +26,7 @@ export class TeamsService {
   }
 
   public createTeam(body){
-    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/teams',body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/teams',body,{headers: Header.getGeneralHeaderMultipart()});
   }
 
 
@@ -36,6 +36,8 @@ export class TeamsService {
   }
 
   public updateTeam(idTeam,body){
-    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/teams/'+idTeam, body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/teams/'+idTeam, body,{headers: Header.getGeneralHeaderMultipart()});
   }
+
+
 }

@@ -26,7 +26,7 @@ export class PlayersService {
   }
 
   public createPlayer(body){
-    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/players',body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.post(Constants.HOME_DEV +'/api/v1/players',body,{headers: Header.getGeneralHeaderMultipart()});
   }
 
 
@@ -36,7 +36,7 @@ export class PlayersService {
   }
 
   public updatePlayer(idPlayer,body){
-    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/players/'+idPlayer, body,{headers: Header.getGeneralHeader()});
+    return this.httpClient.patch(Constants.HOME_DEV +'/api/v1/players/'+idPlayer, body,{headers: Header.getGeneralHeaderMultipart()});
   }
 
   public getPlayersWitOutTeam(){
