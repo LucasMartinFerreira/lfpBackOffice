@@ -5,7 +5,20 @@ export class NewsModel {
   public nameView;
   public activeNewsView = new EventEmitter();
 
+
+  private  reloadTable= new EventEmitter();
+
+
   public objectNew = new EventEmitter();
+
+
+  setReloadTable(a : boolean){
+    this.reloadTable.next(a);
+  }
+
+  getReloadTable(){
+    return this.reloadTable.asObservable()
+  }
 
   setObjectNew(object){
     this.objectNew.next(object);

@@ -39,7 +39,13 @@ export class NewsListComponent implements OnInit {
               public toastr : ToastrService,
               public router: Router,
               public dialogService: DialogService,
-              public modelNews: NewsModel) { }
+              public modelNews: NewsModel) {
+
+    this.newsModel.getReloadTable().subscribe(result=>{
+      this.getAllNews()
+    })
+
+  }
 
   ngOnInit() {
 
