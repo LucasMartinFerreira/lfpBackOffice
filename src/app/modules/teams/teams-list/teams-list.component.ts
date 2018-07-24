@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource, MatPaginator} from '@angular/material';
 import {TeamsService} from "../../../services/teams/teams.service";
 import {TeamsModel} from "../../../models/teams-model";
@@ -46,11 +46,13 @@ export class TeamsListComponent implements OnInit {
   constructor(public teamsService: TeamsService, public teamsModel: TeamsModel,private spinner: NgxSpinnerService,
               public dialogService: DialogService,
               public playersModel: PlayersModel,
+              private changeDetectorRefs: ChangeDetectorRef,
               public router : Router) {
 
 
     this.teamsModel.getReloadTable().subscribe(result=>{
       this.getAllTeams();
+
     });
   }
 
@@ -70,12 +72,16 @@ export class TeamsListComponent implements OnInit {
      // this.dataSource = result.data;
       this.dataSource = new MatTableDataSource<PeriodicElement>(result.data);
       this.dataSource.paginator = this.paginator;
+
       this.paginator._intl.itemsPerPageLabel = 'Registros por página';
       this.paginator._intl.nextPageLabel = "Siguiente"
       this.paginator._intl.previousPageLabel = "Anterior";
       this.paginator._intl.lastPageLabel = "Última Página";
       this.paginator._intl.firstPageLabel = "Primera Página";
       this.spinner.hide()
+
+      this.dataSource.connect().value
+
     })
   }
 

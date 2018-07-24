@@ -86,17 +86,18 @@ export class PlayersCrudComponent implements OnInit {
 
     if(this.player !== '' && this.player !== null && this.player !== undefined){
 
+      console.log('Recuperamos el jugador ', this.player)
       if(this.player.characteristics !== undefined && this.player.characteristics!=='' && this.player.characteristics !==null){
-        this.age = this.player.age;
-        this.height = this.player.height;
-        this.weight = this.player.weight;
+        this.age = this.player.characteristics.age;
+        this.height = this.player.characteristics.height;
+        this.weight = this.player.characteristics.weight;
       }
       // this.characteristics  = this.player.characteristics;
 
 
       if(this.player.statistics !== undefined && this.player.statistics !=='' && this.player.statistics!==null){
-        this.statistics.goals = this.statistics.goals;
-        this.statistics.titles = this.statistics.titles;
+        this.statistics.goals = this.player.statistics.goals;
+        this.statistics.titles = this.player.statistics.titles;
       }else{
         this.statistics.goals ='';
         this.statistics.titles = '';
@@ -185,6 +186,10 @@ export class PlayersCrudComponent implements OnInit {
 
     if(this.name !== '' && this.name !== null && this.name !== undefined){
       this.formData.append('name', this.name );
+    }
+
+    if(this.nationality !== '' && this.nationality !== null && this.nationality !== undefined){
+      this.formData.append('nationality', this.nationality );
     }
 
     if(this.secondname !== '' && this.secondname !== null && this.secondname !== undefined){

@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {TeamsModel} from "../../../models/teams-model";
 import {PlayersModel} from "../../../models/players.model";
 import {NewsModel} from "../../../models/news.model";
+import {LoginModel} from "../../../models/login.model";
 
 @Component({
   selector: 'app-dashboard-sidebar',
@@ -14,6 +15,7 @@ export class DashboardSidebarComponent implements OnInit {
 
   constructor(public dashboardModel: DashboardModel,
               public newsModel : NewsModel,
+              private loginModel: LoginModel,
               public router : Router, public teamsModel: TeamsModel, public playersModel: PlayersModel) {
 
   }
@@ -61,5 +63,10 @@ export class DashboardSidebarComponent implements OnInit {
     this.newsModel.setActiveNewsView('ListNews');
     this.newsModel.setNameView('ListNews');
     this.router.navigate(['newsMain']);
+  }
+
+  logOut(){
+    this.loginModel.setToken('');
+    this.router.navigate(['login']);
   }
 }
