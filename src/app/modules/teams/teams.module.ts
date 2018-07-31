@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { TeamsMainComponent } from './teams-main/teams-main.component';
 import { TeamsListComponent } from './teams-list/teams-list.component';
 import {DashboardModule} from "../dashboard/dashboard.module";
-import {MatInputModule, MatTableModule, MatToolbarModule } from '@angular/material';
+import {MatFormFieldModule, MatInputModule, MatTableModule, MatToolbarModule} from '@angular/material';
 import { TeamsCRUDComponent } from './teams-crud/teams-crud.component';
 
 import { TeamsModel } from "../../models/teams-model";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TeamsService} from "../../services/teams/teams.service";
 import { MatPaginatorModule } from '@angular/material';
 import {ModalConfirm} from "./../../components/modalConfirm/modalConfirm";
@@ -22,6 +22,8 @@ import {UtilsService} from "../../services/utils.service";
   imports: [
     CommonModule,
     FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
     DashboardModule,
     MatPaginatorModule,
     CommonModule, MatToolbarModule, MatInputModule, MatTableModule

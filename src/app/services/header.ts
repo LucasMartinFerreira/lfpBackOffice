@@ -25,7 +25,6 @@ export class Header {
 
   public static getGeneralHeaderMultipart(): HttpHeaders {
 
-
     let token =  new LoginModel();
 
     let headers = new HttpHeaders()

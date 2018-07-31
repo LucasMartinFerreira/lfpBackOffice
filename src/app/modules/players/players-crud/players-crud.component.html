@@ -1,4 +1,4 @@
-<div class="content-create-player">
+<div class="content-create-player" [formGroup]="form">
   <div class="header-content">
     <label *ngIf="player === null "  class="label-title">
       Creación de un Jugador
@@ -19,37 +19,59 @@
     <div>
       <div>
         <label for="namePlayer">Nombre del Jugador:</label>
-        <input type="text" id="namePlayer" name="namePlayer" [(ngModel)]="name" placeholder="Nombre">
+        <mat-form-field>
+          <input matInput formControlName="namePlayer" type="text" id="namePlayer" name="namePlayer" [(ngModel)]="name" placeholder="Nombre">
+          <mat-error *ngIf="form.get('namePlayer').hasError('required')">
+            Nombre del Jugador Obligatorio
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="secondname">Apellidos:</label>
-        <input id="secondname" type="text" name="secondname" placeholder="Apellidos" [(ngModel)]="secondname">
+        <mat-form-field>
+          <input matInput formControlName="secondname" id="secondname" type="text" name="secondname" placeholder="Apellidos" [(ngModel)]="secondname">
+        </mat-form-field>
       </div>
 
       <div>
         <label for="nationality">Nacionalidad:</label>
-        <input id="nationality" type="text" name="nationality" placeholder="Nacionalidad" [(ngModel)]="nationality">
+        <mat-form-field>
+          <input matInput formControlName="nationality" id="nationality" type="text" name="nationality" placeholder="Nacionalidad" [(ngModel)]="nationality">
+        </mat-form-field>
       </div>
 
       <div>
         <label for="position">Demarcación:</label>
-        <input id="position" type="text" name="position" placeholder="Demarcación" [(ngModel)]="position">
+        <mat-form-field>
+          <input  matInput formControlName="position" id="position" type="text" name="position" placeholder="Demarcación" [(ngModel)]="position">
+        </mat-form-field>
+
       </div>
 
       <div *ngIf="player !== null ">
         <label for="teamName">Equipo Actual</label>
-        <input [disabled]="true" id= "teamName" type="text" name="teamName" placeholder="Equipo Actual" [(ngModel)]="teamName">
+        <mat-form-field>
+          <input  matInput formControlName="teamName" [disabled]="true" id= "teamName" type="text" name="teamName" placeholder="Equipo Actual" [(ngModel)]="teamName">
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="strengths">Fortalezas</label>
-        <textarea id="strengths" name="strengths" [(ngModel)]="strengths" class="textarea-create-player">{{strengths}}</textarea>
+        <mat-form-field>
+          <textarea  matInput formControlName="strengths" id="strengths" name="strengths" [(ngModel)]="strengths" class="textarea-create-player">{{strengths}}</textarea>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="weaknesses">Debilidades</label>
-        <textarea  id="weaknesses" name ="weaknesses"[(ngModel)]="weaknesses" class="textarea-create-player">{{weaknesses}}</textarea>
+        <mat-form-field>
+          <textarea  matInput formControlName="weaknesses" id="weaknesses" name ="weaknesses"[(ngModel)]="weaknesses" class="textarea-create-player">{{weaknesses}}</textarea>
+        </mat-form-field>
+
       </div>
 
     </div>
@@ -71,30 +93,59 @@
 
       <div>
         <label for="goals">Goles:</label>
-        <input id="goals" type="text" name="goals" placeholder="Goles" [(ngModel)]="this.statistics.goals">
+        <mat-form-field>
+          <input id="goals" matInput formControlName="goals" type="text" name="goals" placeholder="Goles" [(ngModel)]="this.statistics.goals">
+          <mat-error *ngIf="form.get('goals').hasError('pattern')">
+            Los goles deben de ser un número
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
 
       <div>
         <label for="titles">Títulos</label>
-        <input id= "titles" type="text" name="titles" placeholder="Títulos Conseguidos" [(ngModel)]="this.statistics.titles">
+        <mat-form-field>
+          <input matInput formControlName="titles" id= "titles" type="text" name="titles" placeholder="Títulos Conseguidos" [(ngModel)]="this.statistics.titles">
+          <mat-error *ngIf="form.get('titles').hasError('pattern')">
+            Los titulos deben de ser un número
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
 
         <div>
           <label for="agePlayer">Edad:</label>
-          <input type="text" id="agePlayer" name="agePlayer" [(ngModel)]="age" placeholder="Edad">
+          <mat-form-field>
+            <input matInput formControlName="agePlayer" type="text" id="agePlayer" name="agePlayer" [(ngModel)]="age" placeholder="Edad">
+            <mat-error *ngIf="form.get('agePlayer').hasError('pattern')">
+             La edad tiene que ser un número
+            </mat-error>
+          </mat-form-field>
+
         </div>
 
         <div>
           <label for="heightPlayer">Altura (cm):</label>
-          <input id="heightPlayer" type="text" name="heightPlayer" placeholder="Altura" [(ngModel)]="height">
+          <mat-form-field>
+            <input matInput formControlName="heightPlayer" id="heightPlayer" type="text" name="heightPlayer" placeholder="Altura" [(ngModel)]="height">
+            <mat-error *ngIf="form.get('heightPlayer').hasError('pattern')">
+              La altura tiene que ser un número
+            </mat-error>
+          </mat-form-field>
+
         </div>
 
         <div>
           <label for="weightPlayer">Peso (kg):</label>
-          <input id="weightPlayer" type="text" name="weightPlayer" placeholder="Peso" [(ngModel)]="weight">
+          <mat-form-field>
+            <input matInput formControlName="weightPlayer" id="weightPlayer" type="text" name="weightPlayer" placeholder="Peso" [(ngModel)]="weight">
+            <mat-error *ngIf="form.get('weightPlayer').hasError('pattern')">
+              El peso tiene que ser un número
+            </mat-error>
+          </mat-form-field>
         </div>
 
       </div>

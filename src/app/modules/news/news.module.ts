@@ -4,8 +4,11 @@ import { NewsMainComponent } from './news-main/news-main.component';
 import { NewsListComponent } from './news-list/news-list.component';
 import {DashboardModule} from "../dashboard/dashboard.module";
 import { NewsCrudComponent } from './news-crud/news-crud.component';
-import {MatInputModule, MatPaginatorModule, MatTableModule, MatToolbarModule} from "@angular/material";
-import {FormsModule} from "@angular/forms";
+import {
+  MatFormFieldModule, MatInputModule, MatPaginatorModule, MatTableModule,
+  MatToolbarModule
+} from "@angular/material";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PlayersService} from "../../services/players/players.service";
 import {FooterComponent} from "../../components/footer/footer.component";
 import {ModalConfirmActionForNews} from "./news-crud/modal-confirmation/modal-confirm-action-for-news";
@@ -17,6 +20,8 @@ import {ModalConfirmActionForNews} from "./news-crud/modal-confirmation/modal-co
     CommonModule,
     DashboardModule, MatPaginatorModule,
     FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
     CommonModule, MatToolbarModule, MatInputModule, MatTableModule
   ],
   entryComponents:[ModalConfirmActionForNews],

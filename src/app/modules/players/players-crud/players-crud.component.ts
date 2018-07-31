@@ -5,6 +5,8 @@ import {PlayersService} from "../../../services/players/players.service";
 import {PlayersModel} from "../../../models/players.model";
 import {Router} from "@angular/router";
 import {UtilsService} from "../../../services/utils.service";
+import {  FormControl, FormGroup, AbstractControl, FormBuilder, Validators  } from '@angular/forms';
+import {Constants} from "../../../services/constants";
 
 @Component({
   selector: 'app-players-crud',
@@ -38,7 +40,7 @@ export class PlayersCrudComponent implements OnInit {
   private file:any;
   public valuePhoto:any;
   public position: string;
-
+  public form : FormGroup;
 
   private flagEditPhoto: boolean = false;
 
@@ -128,38 +130,75 @@ export class PlayersCrudComponent implements OnInit {
     }else{
       this.player = null;
     }
+
+    this.validateInputForm();
+
   }
 
 
+  validateInputForm(){
+    this.form = new FormGroup({
+      namePlayer: new FormControl('', Validators.required),
+      secondname: new FormControl(),
+      nationality: new FormControl(),
+      teamName: new FormControl(),
+      strengths: new FormControl(),
+      position: new FormControl(),
+      weaknesses: new FormControl(),
+      goals: new FormControl('', Validators.pattern(Constants.exprNumber)),
+      titles: new FormControl('', Validators.pattern(Constants.exprNumber)),
+      agePlayer: new FormControl('', Validators.pattern(Constants.exprNumber)),
+      heightPlayer: new FormControl('', Validators.pattern(Constants.exprNumber)),
+      weightPlayer: new FormControl('', Validators.pattern(Constants.exprNumber))
+    });
+  }
+
+  enabledAllForm(){
+    for(let i in this.form.controls){
+      this.form.controls[i].markAsTouched();
+    }
+  }
+
   createPlayer(){
-    this.spinner.show();
 
-    this.validateForm();
+    if(this.form.valid){
+      this.spinner.show();
 
-    this.playerService.createPlayer(this.formData).subscribe(resultCreated=>{
-      this.toastr.success('Jugador creado correctamente!');
-      this.playerModel.setnameViewActive('ListPlayers');
-      this.router.navigate(['playersMain'])
-      this.spinner.hide();
-    },error => {
-      this.spinner.hide();
-      this.toastr.error('Error al crear el jugador!');
-    })
+      this.validateForm();
+
+      this.playerService.createPlayer(this.formData).subscribe(resultCreated=>{
+        this.toastr.success('Jugador creado correctamente!');
+        this.playerModel.setnameViewActive('ListPlayers');
+        this.router.navigate(['playersMain'])
+        this.spinner.hide();
+      },error => {
+        this.spinner.hide();
+        this.toastr.error('Error al crear el jugador!');
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
 
   }
 
   updatePlayer(){
-    this.spinner.show();
-    this.validateForm();
-    this.playerService.updatePlayer(this.idPlayer,this.formData).subscribe(result=>{
-      this.toastr.success('Jugador actualizado correctamente!');
-      this.playerModel.setnameViewActive('ListPlayers');
-      this.router.navigate(['playersMain'])
-      this.spinner.hide();
-    },error => {
-      this.spinner.hide();
-      this.toastr.error('Error al actualizar el jugador!');
-    })
+    if(this.form.valid){
+      this.spinner.show();
+      this.validateForm();
+      this.playerService.updatePlayer(this.idPlayer,this.formData).subscribe(result=>{
+        this.toastr.success('Jugador actualizado correctamente!');
+        this.playerModel.setnameViewActive('ListPlayers');
+        this.router.navigate(['playersMain'])
+        this.spinner.hide();
+      },error => {
+        this.spinner.hide();
+        this.toastr.error('Error al actualizar el jugador!');
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
   }
 
 

@@ -5,6 +5,7 @@ import {TeamsModel} from "../../../models/teams-model";
 import {PlayersModel} from "../../../models/players.model";
 import {NewsModel} from "../../../models/news.model";
 import {LoginModel} from "../../../models/login.model";
+import {LoginService} from "../../../services/login/login.service";
 
 @Component({
   selector: 'app-dashboard-sidebar',
@@ -16,6 +17,7 @@ export class DashboardSidebarComponent implements OnInit {
   constructor(public dashboardModel: DashboardModel,
               public newsModel : NewsModel,
               private loginModel: LoginModel,
+              private loginService : LoginService,
               public router : Router, public teamsModel: TeamsModel, public playersModel: PlayersModel) {
 
   }
@@ -66,7 +68,12 @@ export class DashboardSidebarComponent implements OnInit {
   }
 
   logOut(){
-    this.loginModel.setToken('');
-    this.router.navigate(['login']);
+    let body={};
+
+    this.loginService.logOut(body).subscribe(result=>{
+      this.loginModel.setToken('');
+      this.router.navigate(['login']);
+    })
+
   }
 }

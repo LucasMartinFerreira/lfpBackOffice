@@ -7,6 +7,7 @@ import {NewsModel} from "../../../models/news.model";
 import * as moment from 'moment';
 import {Constants} from "../../../services/constants";
 import {UtilsService} from "../../../services/utils.service";
+import {  FormControl, FormGroup, AbstractControl, FormBuilder, Validators  } from '@angular/forms';
 
 @Component({
   selector: 'app-news-crud',
@@ -28,6 +29,7 @@ export class NewsCrudComponent implements OnInit {
   public formData;
   private file:any;
   private flagEditPhoto: boolean = false;
+  public form : FormGroup;
 
   private base64textString: string= "";
 
@@ -59,9 +61,6 @@ export class NewsCrudComponent implements OnInit {
 
   ngOnInit() {
 
-
-
-
     this.formData = new FormData();
 
     if(this.newObject !== '' && this.newObject !== null && this.newObject !== undefined){
@@ -73,59 +72,88 @@ export class NewsCrudComponent implements OnInit {
       this.link = this.newObject.link;
       this.photo= this.newObject.photo;
     }
+
+    this.validateInputForm();
+
   }
 
+  validateInputForm(){
+    this.form = new FormGroup({
+      titleNews: new FormControl('', Validators.required),
+      subtitleNews: new FormControl('', Validators.required),
+      textBody: new FormControl('', Validators.required),
+      reporter: new FormControl('', Validators.required),
+      date: new FormControl('', [Validators.pattern(Constants.exprDate),Validators.required]),
+      link: new FormControl('', [Validators.pattern(Constants.exprLink),Validators.required]),
 
+    });
+  }
+
+  enabledAllForm(){
+    for(let i in this.form.controls){
+      this.form.controls[i].markAsTouched();
+    }
+  }
 
   createNew(){
 
-    this.spinner.show();
+    if(this.form.valid){
+      this.spinner.show();
 
-    this.formData.append('title', this.title );
-    this.formData.append('date', moment.utc(this.date).format());
-    this.formData.append('subtitle', this.subtitle );
-    this.formData.append('reporter', this.reporter );
-    this.formData.append('text', this.text );
-    this.formData.append('link', this.link );
+      this.formData.append('title', this.title );
+      this.formData.append('date', moment.utc(this.date).format());
+      this.formData.append('subtitle', this.subtitle );
+      this.formData.append('reporter', this.reporter );
+      this.formData.append('text', this.text );
+      this.formData.append('link', this.link );
 
-    console.log('Creams...',moment.utc(this.date).format())
+      console.log('Creams...',moment.utc(this.date).format())
 
-    this.newsService.createNew(this.formData).subscribe(resultData=>{
-      this.toastr.success('Noticia Creada correctamente!');
-      this.modelNews.setActiveNewsView('ListNews');
-      this.router.navigate(['newsMain'])
-    },error=>{
-      this.spinner.hide()
-      this.toastr.error('Error al crear una noticia!');
-      console.log('Error al crear la noticia (' +error.message +')')
-    })
+      this.newsService.createNew(this.formData).subscribe(resultData=>{
+        this.toastr.success('Noticia Creada correctamente!');
+        this.modelNews.setActiveNewsView('ListNews');
+        this.router.navigate(['newsMain'])
+      },error=>{
+        this.spinner.hide()
+        this.toastr.error('Error al crear una noticia!');
+        console.log('Error al crear la noticia (' +error.message +')')
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
+
   }
 
 
   updateNew(){
 
-
-    this.spinner.show();
-
-    this.formData.append('title', this.title );
-    this.formData.append('date', moment.utc(this.date).format());
-    this.formData.append('subtitle', this.subtitle );
-    this.formData.append('reporter', this.reporter );
-    this.formData.append('text', this.text );
-    this.formData.append('link', this.link );
-
+    if(this.form.valid){
+      this.spinner.show();
+      this.formData.append('title', this.title );
+      this.formData.append('date', moment.utc(this.date).format());
+      this.formData.append('subtitle', this.subtitle );
+      this.formData.append('reporter', this.reporter );
+      this.formData.append('text', this.text );
+      this.formData.append('link', this.link );
 
 
-    this.newsService.updateNew(this.id,this.formData).subscribe(resultData=>{
-      this.toastr.success('Noticia Actualizada correctamente!');
-      this.modelNews.setActiveNewsView('ListNews');
-      this.router.navigate(['newsMain'])
-      this.spinner.hide();
-    },error=>{
-      this.spinner.hide()
-      this.toastr.error('Noticia Actualizada correctamente!');
-      console.log('Error al actualizar la noticia ('+error.message+')')
-    })
+
+      this.newsService.updateNew(this.id,this.formData).subscribe(resultData=>{
+        this.toastr.success('Noticia Actualizada correctamente!');
+        this.modelNews.setActiveNewsView('ListNews');
+        this.router.navigate(['newsMain'])
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide()
+        this.toastr.error('Noticia Actualizada correctamente!');
+        console.log('Error al actualizar la noticia ('+error.message+')')
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
+
   }
 
 

@@ -1,4 +1,4 @@
-<div class="content-create-news">
+<div class="content-create-news"  [formGroup]="form">
   <div class="header-content">
     <label *ngIf="newObject === null " class="label-title">
       Creación de una Noticia
@@ -19,32 +19,74 @@
     <div>
       <div>
         <label for="titleNews">Título de la noticia:</label>
-        <input type="text" id="titleNews" name="titleNews" [(ngModel)]="title" placeholder="titulo">
+        <mat-form-field>
+          <input matInput formControlName="titleNews" type="text" id="titleNews" name="titleNews" [(ngModel)]="title" placeholder="titulo">
+          <mat-error *ngIf="form.get('titleNews').hasError('required')">
+           Campo Requerido
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="subtitleNews">Subtítulo de la Noticia:</label>
-        <input id="subtitleNews" type="text" name="subtitleNews" placeholder="Subtítulo" [(ngModel)]="subtitle">
+        <mat-form-field>
+          <input matInput formControlName="subtitleNews" id="subtitleNews" type="text" name="subtitleNews" placeholder="Subtítulo" [(ngModel)]="subtitle">
+          <mat-error *ngIf="form.get('subtitleNews').hasError('required')">
+            Campo Requerido
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="textBody">Cuerpo:</label>
-        <input id="textBody" type="text" name="textBody" placeholder="Cuerpo" [(ngModel)]="text">
+        <mat-form-field>
+          <input matInput formControlName="textBody" id="textBody" type="text" name="textBody" placeholder="Cuerpo" [(ngModel)]="text">
+          <mat-error *ngIf="form.get('textBody').hasError('required')">
+            Campo Requerido
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="reporter">Publicada por:</label>
-        <input id= "reporter" type="text" name="reporter" placeholder="nombre del reportero" [(ngModel)]="reporter">
+        <mat-form-field>
+          <input matInput formControlName="reporter" id= "reporter" type="text" name="reporter" placeholder="nombre del reportero" [(ngModel)]="reporter">
+          <mat-error *ngIf="form.get('reporter').hasError('required')">
+            Campo Requerido
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="date">Fecha Publicación:</label>
-        <input id= "date" type="text" name="link" placeholder="Ejemplo:21-12-2018" [(ngModel)]="date">
+        <mat-form-field>
+          <input  matInput formControlName="date" id= "date" type="text" name="date" placeholder="Fecha" [(ngModel)]="date">
+          <mat-error *ngIf="form.get('date').hasError('required')">
+            Campo Requerido
+          </mat-error>
+          <mat-error *ngIf="form.get('date').hasError('pattern')">
+            Tiene que introducir una fecha : Ej: 22-10-2018
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div>
         <label for="reporter">Publicada por:</label>
-        <input id= "link" type="text" name="link" placeholder="link" [(ngModel)]="link">
+        <mat-form-field>
+          <input  matInput formControlName="link" id= "link" type="text" name="link" placeholder="link" [(ngModel)]="link">
+          <mat-error *ngIf="form.get('link').hasError('required')">
+            Campo Requerido
+          </mat-error>
+          <mat-error *ngIf="form.get('link').hasError('pattern')">
+           Introduzca una url válida
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
     </div>

@@ -5,6 +5,8 @@ import {TeamsModel} from "../../../models/teams-model";
 import {Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 import {UtilsService} from "../../../services/utils.service";
+import {  FormControl, FormGroup, AbstractControl, FormBuilder, Validators  } from '@angular/forms';
+import {Constants} from "../../../services/constants";
 
 
 @Component({
@@ -25,6 +27,7 @@ export class TeamsCRUDComponent implements OnInit {
   private file:any;
   public formData;
   private flagEditPhoto: boolean = false;
+  public form : FormGroup;
 
   @Input() team ;
 
@@ -80,49 +83,77 @@ export class TeamsCRUDComponent implements OnInit {
       this.team = null
     }
 
+    this.validateInputForm();
   }
 
+  validateInputForm(){
+    this.form = new FormGroup({
+      nameTeam: new FormControl('', Validators.required),
+      stadium: new FormControl(),
+      coach: new FormControl(),
+      president: new FormControl(),
+      goalsInput: new FormControl('', Validators.pattern(Constants.exprNumber)),
+      titlesInput: new FormControl('', Validators.pattern(Constants.exprNumber))
+    });
+  }
+
+  enabledAllForm(){
+    for(let i in this.form.controls){
+      this.form.controls[i].markAsTouched();
+    }
+  }
 
   createTeam(){
 
-    this.spinner.show();
+    if(this.form.valid){
+      this.spinner.show();
 
-    this.validateForm();
+      this.validateForm();
 
-    this.teamsService.createTeam(this.formData).subscribe(result =>{
+      this.teamsService.createTeam(this.formData).subscribe(result =>{
 
-      this.toastr.success('Equipo Creado correctamente!');
-      this.teamsModel.setnameViewActive('ListTeams');
-      this.router.navigate(['teamsMain'])
-      this.spinner.hide();
-    },error=>{
-      this.spinner.hide()
+        this.toastr.success('Equipo Creado correctamente!');
+        this.teamsModel.setnameViewActive('ListTeams');
+        this.router.navigate(['teamsMain'])
+        this.spinner.hide();
+      },error=>{
+        this.spinner.hide()
 
-      this.toastr.error('Error: !'+ error.message);
+        this.toastr.error('Error: !'+ error.message);
 
-      console.log('Error al crear el Equipo')
-    })
+        console.log('Error al crear el Equipo')
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
+
+
 
   }
 
   editTeam(){
+    if(this.form.valid){
+      this.spinner.show();
 
-    this.spinner.show();
+      this.validateForm();
 
-    this.validateForm();
+      let idTeam = this.idTeam;
 
-    let idTeam = this.idTeam;
-
-    this.teamsService.updateTeam(idTeam, this.formData).subscribe(result=>{
-      this.toastr.success('Equipo actualizado correctamente!');
-      this.teamsModel.setnameViewActive('ListTeams');
-      this.router.navigate(['teamsMain'])
-      this.spinner.hide();
-    },error => {
-      this.spinner.hide();
-      this.toastr.error('Erroral actualizar el equipo!');
-      console.log('Error al editar el equipo');
-    })
+      this.teamsService.updateTeam(idTeam, this.formData).subscribe(result=>{
+        this.toastr.success('Equipo actualizado correctamente!');
+        this.teamsModel.setnameViewActive('ListTeams');
+        this.router.navigate(['teamsMain'])
+        this.spinner.hide();
+      },error => {
+        this.spinner.hide();
+        this.toastr.error('Erroral actualizar el equipo!');
+        console.log('Error al editar el equipo');
+      })
+    }else{
+      this.enabledAllForm();
+      this.toastr.warning('Rellene los datos correctamente!');
+    }
 
   }
 

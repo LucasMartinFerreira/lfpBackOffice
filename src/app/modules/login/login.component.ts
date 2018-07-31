@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {LoginService} from "../../services/login/login.service";
 import {LoginModel} from "../../models/login.model";
 import { NgxSpinnerService } from 'ngx-spinner';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router : Router, public loginService: LoginService,
               public loginModel : LoginModel,
+              public toastr: ToastrService,
               private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
       this.spinner.hide();
     },error => {
       this.spinner.hide();
-      alert('Login Incorrecto')
+      this.toastr.error('Datos Incorrectos');
       console.log('Error al realizar login')
     }
    )

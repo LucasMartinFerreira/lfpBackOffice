@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatInputModule, MatTableModule, MatToolbarModule } from '@angular/material';
+import {MatFormFieldModule, MatInputModule, MatTableModule, MatToolbarModule} from '@angular/material';
 
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import { MatPaginatorModule } from '@angular/material';
 
@@ -27,6 +27,8 @@ import {DragulaModule} from "ng2-dragula";
     FormsModule,
     DashboardModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
     DragulaModule,
     CommonModule, MatToolbarModule, MatInputModule, MatTableModule
   ],

@@ -1,4 +1,4 @@
-<div class="content-create-team">
+<div class="content-create-team" [formGroup]="form">
   <div class="header-content">
     <label  *ngIf="team === null "  class="label-title">
       Creación de un equipo
@@ -18,23 +18,40 @@
       <div>
         <div>
           <label for="nameTeam">Nombre del Equipo:</label>
-          <input type="text" id="nameTeam" name="nanameTeamme" [(ngModel)]="nameTeam" placeholder="Nombre del Equipo">
+          <mat-form-field>
+            <input matInput formControlName="nameTeam" type="text" id="nameTeam" name="nanameTeamme" [(ngModel)]="nameTeam" placeholder="Nombre del Equipo">
+            <mat-error *ngIf="form.get('nameTeam').hasError('required')">
+              Nombre de Equipo Obligatorio
+            </mat-error>
+          </mat-form-field>
         </div>
 
         <div>
           <label for="stadium">Estadio:</label>
-          <input id="stadium" type="text" name="stadium" placeholder="Nombre del estadio" [(ngModel)]="stadium">
+          <mat-form-field>
+            <input matInput formControlName="stadium" id="stadium" type="text" name="stadium" placeholder="Nombre del estadio" [(ngModel)]="stadium">
+          </mat-form-field>
+
         </div>
 
         <div>
           <label for="coach">Entrenador:</label>
-          <input id="coach" type="text" name="coach" placeholder="Nombre del entrenador" [(ngModel)]="coach">
+          <mat-form-field>
+            <input matInput formControlName="coach" id="coach" type="text" name="coach" placeholder="Nombre del entrenador" [(ngModel)]="coach">
+            <mat-error *ngIf="form.get('goalsInput').hasError('pattern')">
+              Los goles deben de ser un número
+            </mat-error>
+          </mat-form-field>
+
         </div>
 
 
         <div>
           <label for="president">Presidente</label>
-          <input id= "president" type="text" name="president" placeholder="Nombre del Presidente" [(ngModel)]="president">
+          <mat-form-field>
+            <input matInput formControlName="president" id= "president" type="text" name="president" placeholder="Nombre del Presidente" [(ngModel)]="president">
+          </mat-form-field>
+
         </div>
 
       </div>
@@ -64,12 +81,24 @@
 
         <div>
           <label for="goals">Goles:</label>
-          <input id= "goals" type="text" name="goals" placeholder="Goles" [(ngModel)]="history.goals">
+          <mat-form-field>
+            <input matInput formControlName="goalsInput" id= "goals" type="text" name="goals" placeholder="Goles" [(ngModel)]="history.goals">
+            <mat-error *ngIf="form.get('goalsInput').hasError('pattern')">
+              Los goles deben de ser un número
+            </mat-error>
+          </mat-form-field>
+
         </div>
 
-        <div>
+        <div >
           <label for="titles">Títulos:</label>
-          <input id= "titles" type="text" name="titles" placeholder="Títulos" [(ngModel)]="history.titles">
+          <mat-form-field>
+            <input matInput formControlName="titlesInput" id= "titles" type="text" name="titles" placeholder="Títulos" [(ngModel)]="history.titles">
+            <mat-error *ngIf="form.get('titlesInput').hasError('pattern')">
+              Los goles deben de ser un número
+            </mat-error>
+          </mat-form-field>
+
         </div>
 
       </div>

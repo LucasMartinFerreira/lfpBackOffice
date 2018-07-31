@@ -102,6 +102,7 @@ export class NewsListComponent implements OnInit {
     this.newService.getNew(id).subscribe(result=>{
       this.newsModel.setObjectNew(result.data);
       this.newsModel.setActiveNewsView('CreateNews');
+      this.toastr.success('Noticia actualizada Correctamente');
       this.spinner.hide();
     },error=>{
       this.spinner.hide()
