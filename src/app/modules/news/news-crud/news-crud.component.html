@@ -76,7 +76,7 @@
       </div>
 
       <div>
-        <label for="reporter">Publicada por:</label>
+        <label for="reporter">Enlace de la noticia:</label>
         <mat-form-field>
           <input  matInput formControlName="link" id= "link" type="text" name="link" placeholder="link" [(ngModel)]="link">
           <mat-error *ngIf="form.get('link').hasError('required')">
@@ -103,10 +103,10 @@
 
     <div  class="footer-buttons">
 
-      <div *ngIf="new === '' " class="footer-buttons">
+      <div *ngIf="newObject === null "  class="footer-buttons">
         <button (click)="createNew()">Crear Noticia</button>
       </div>
-      <div *ngIf="new !== '' " class="footer-buttons">
+      <div *ngIf="newObject !== null "  class="footer-buttons">
         <button (click)="updateNew()">Editar Noticia</button>
       </div>
     </div>
