@@ -109,7 +109,8 @@ export class NewsCrudComponent implements OnInit {
       this.formData.append('text', this.text );
       this.formData.append('link', this.link );
 
-
+      console.log('Fecha de Creación', this.date)
+      console.log('Cremos...',moment.utc(this.date).format())
 
       this.newsService.createNew(this.formData).subscribe(resultData=>{
         this.toastr.success('Noticia Creada correctamente!');
@@ -134,13 +135,14 @@ export class NewsCrudComponent implements OnInit {
       this.spinner.show();
       this.formData.append('title', this.title );
 
-      this.formData.append('date',this.date);
+      this.formData.append('date',moment.utc(this.date).format());
       this.formData.append('subtitle', this.subtitle );
       this.formData.append('reporter', this.reporter );
       this.formData.append('text', this.text );
       this.formData.append('link', this.link );
 
-
+      console.log('Editamos Fecha', this.date);
+      console.log('Editamos',moment.utc(this.date).format())
 
 
       this.newsService.updateNew(this.id,this.formData).subscribe(resultData=>{
@@ -150,7 +152,7 @@ export class NewsCrudComponent implements OnInit {
         this.spinner.hide();
       },error=>{
         this.spinner.hide()
-        this.toastr.success('Noticia Actualizada correctamente!');
+        this.toastr.error('Error al actualizar la noticia ('+error.message+')');
         console.log('Error al actualizar la noticia ('+error.message+')')
       })
     }else{
