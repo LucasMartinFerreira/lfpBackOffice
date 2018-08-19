@@ -107,7 +107,7 @@ export class PlayersCrudComponent implements OnInit {
 
       if(this.player.team !== undefined && this.player.team!=='' && this.player.team !==null){
         this.team = this.player.team;
-        this.teamName = this.player.team[0].name;
+        this.teamName = this.player.team.name;
       }else{
         this.teamName = "Sin Equipo"
       }

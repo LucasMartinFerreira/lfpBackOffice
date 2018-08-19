@@ -109,7 +109,7 @@ export class NewsCrudComponent implements OnInit {
       this.formData.append('text', this.text );
       this.formData.append('link', this.link );
 
-      console.log('Creams...',moment.utc(this.date).format())
+
 
       this.newsService.createNew(this.formData).subscribe(resultData=>{
         this.toastr.success('Noticia Creada correctamente!');
@@ -133,11 +133,13 @@ export class NewsCrudComponent implements OnInit {
     if(this.form.valid){
       this.spinner.show();
       this.formData.append('title', this.title );
-      this.formData.append('date', moment.utc(this.date).format());
+
+      this.formData.append('date',this.date);
       this.formData.append('subtitle', this.subtitle );
       this.formData.append('reporter', this.reporter );
       this.formData.append('text', this.text );
       this.formData.append('link', this.link );
+
 
 
 
