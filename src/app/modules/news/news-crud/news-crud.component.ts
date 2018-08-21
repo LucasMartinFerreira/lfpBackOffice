@@ -73,6 +73,8 @@ export class NewsCrudComponent implements OnInit {
       this.link = this.newObject.link;
       this.photo= this.newObject.photo;
       this.id = this.newObject._id;
+    }else{
+      this.newObject = null;
     }
 
     this.validateInputForm();
@@ -103,14 +105,20 @@ export class NewsCrudComponent implements OnInit {
       this.spinner.show();
 
       this.formData.append('title', this.title );
-      this.formData.append('date', moment.utc(this.date).format());
+
+      let from = this.date.split("-")
+      let f = new Date(from[2], from[1]-1, from[0])
+
+      let newDate = new Date(f)
+
+      this.formData.append('date', moment.utc(newDate).format());
+
       this.formData.append('subtitle', this.subtitle );
       this.formData.append('reporter', this.reporter );
       this.formData.append('text', this.text );
       this.formData.append('link', this.link );
 
-      console.log('Fecha de Creación', this.date)
-      console.log('Cremos...',moment.utc(this.date).format())
+
 
       this.newsService.createNew(this.formData).subscribe(resultData=>{
         this.toastr.success('Noticia Creada correctamente!');
@@ -145,8 +153,7 @@ export class NewsCrudComponent implements OnInit {
       let f = new Date(from[2], from[1]-1, from[0])
 
       let newDate = new Date(f)
-      console.log('Editamos Fecha', this.date);
-      console.log('Editamos',moment.utc(newDate).format())
+
       this.formData.append('date', moment.utc(newDate).format());
 
       this.newsService.updateNew(this.id,this.formData).subscribe(resultData=>{

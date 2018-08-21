@@ -16,10 +16,12 @@ export class NewsMainComponent implements OnInit {
 
     this.newsModel.getActiveNewsView().subscribe(resultView => {
       let view = resultView;
+      console.log('Vista Activa', view)
       this.viewActive = view;
     })
 
     this.newsModel.getObjectNew().subscribe(result => {
+      console.log('Datos de la noticia', result)
       this.newObject = result;
     });
   }
