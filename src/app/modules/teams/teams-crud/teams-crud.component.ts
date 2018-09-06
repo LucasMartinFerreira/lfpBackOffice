@@ -121,7 +121,7 @@ export class TeamsCRUDComponent implements OnInit {
 
         this.toastr.error('Error: !'+ error.message);
 
-        console.log('Error al crear el Equipo')
+
       })
     }else{
       this.enabledAllForm();
@@ -148,7 +148,7 @@ export class TeamsCRUDComponent implements OnInit {
       },error => {
         this.spinner.hide();
         this.toastr.error('Erroral actualizar el equipo!');
-        console.log('Error al editar el equipo');
+
       })
     }else{
       this.enabledAllForm();
@@ -176,7 +176,7 @@ export class TeamsCRUDComponent implements OnInit {
         // this.formData.append('shield', this.photo);
       };
 
-      // console.log('Valor de la Photo?', this.photo);
+
 
       reader.readAsDataURL(event.target.files[0]);
 

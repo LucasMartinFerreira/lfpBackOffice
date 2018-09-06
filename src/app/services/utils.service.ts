@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {Constants} from "./constants";
+declare var JSEncrypt: any;
 
 
 @Injectable({
@@ -10,7 +12,7 @@ export class UtilsService {
 
   public getStringPhoto(photo:string){
 
-    console.log('Que hacemos')
+
     let png = photo.indexOf('/png');
     let jpeg = photo.indexOf('/jpeg');
     let JPEG = photo.indexOf('/JPEG');
@@ -22,7 +24,6 @@ export class UtilsService {
     }else if (jpg !== -1){
       return photo.replace('data:image/jpg;base64,','');
     }else if( jpeg !== -1){
-      console.log('Que hace esto', photo.replace('data:image/jpeg;base64,',''))
       return photo.replace('data:image/jpeg;base64,','');
     }else if (JPEG !== -1){
       return photo.replace('data:image/JPEG;base64,','');
@@ -31,5 +32,24 @@ export class UtilsService {
     }else{
       return photo;
     }
+  }
+
+
+  /**
+   * Encrypt Password
+   * @param password
+   * @returns {string}
+   */
+
+   public getRSAPassword (password) {
+
+    // Encrypt with the public key...
+    var encrypt = new JSEncrypt();
+
+    encrypt.setPublicKey(Constants.publicKey);
+
+    var passwordEncrypted = encrypt.encrypt(password);
+
+    return passwordEncrypted;
   }
 }

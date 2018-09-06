@@ -18,11 +18,11 @@ export class PlayersMainComponent implements OnInit {
     this.playersModel.getNameViewActive().subscribe(result=>{
       let view = result;
       this.viewActive = view;
-      console.log('Vista Activa', view)
+
     });
 
     this.playersModel.getObjectPlayer().subscribe(result=>{
-      console.log('Tenemos los datos del jugador:', result)
+
       this.playerObject = result;
     });
   }

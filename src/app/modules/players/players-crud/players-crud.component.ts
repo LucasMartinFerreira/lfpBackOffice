@@ -88,7 +88,7 @@ export class PlayersCrudComponent implements OnInit {
 
     if(this.player !== '' && this.player !== null && this.player !== undefined){
 
-      console.log('Recuperamos el jugador ', this.player)
+
       if(this.player.characteristics !== undefined && this.player.characteristics!=='' && this.player.characteristics !==null){
         this.age = this.player.characteristics.age;
         this.height = this.player.characteristics.height;

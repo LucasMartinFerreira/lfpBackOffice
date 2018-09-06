@@ -14,4 +14,9 @@ export class Constants {
 
   public static get exprLink(): string {return '^http:\\/\\/www\\.|^https:\\/\\/www\\.|^http:\\/\\/|^https:\\/\\/?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$'}
 
+  public static get publicKey() : string { return 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK0PeSTFqCDU9xUzaKw+4TaxGFWKiJopYZwJOlz3TfyfbcENgaMrT3VvkPTWJOI/uFWZK2kE0ZmT0SE+uqFaJaUCAwEAAQ=='};
+
+  public static get secretKey() : string { return 'MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEArQ95JMWoINT3FTNorD7hNrEYVYqImilhnAk6XPdN/J9twQ2BoytPdW+Q9NYk4j+4VZkraQTRmZPRIT66oVolpQIDAQABAkAINQelusnyZKcjFkEMih7cHSHuTJeV2AiNAdMGvaOxKzo+23LIH7G+FzOGFe9rsIXuDPHXrfrrw4lXOnWvknyxAiEA8TvKwFdQN3+s+tiDXsogeaS4UoBRBp/ZmNrfMIR88nsCIQC3p2LoiewSipqWVYgGNR7IMsh5o9tx39N/iut9bOleXwIgLjpmFUvmLGyEKqH5Mt4LMSR2yiCa5mkVmuw+nx6UjycCIG7uen3/oUrp0cpwy4MEXx2KHzHqWckE69mkbe4K9UN9AiEAiKv/qpp57RSfQfHdgHelmyPJKaopd5/SF49nXAE5/is='};
+
+
 }

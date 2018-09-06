@@ -55,14 +55,12 @@ export class PlayersAssignToTeamComponent implements OnInit , OnDestroy{
   }
 
   ngOnInit() {
-
-    console.log('Cargamos todos los jugadores')
     this.idTeam = this.teamModel.getTeam();
     this.nameTeam = this.teamModel.getNameTeam();
     this.playersWitOutTeam = [];
     this.playerForTeam = []
     this.getPlayersToTeam();
-    /**TODO Aqui tendríamos que llamar al end-point que me devolviera los jugadores en bolsa**/
+
     this.getAllPlayers();
   }
 
@@ -126,7 +124,7 @@ export class PlayersAssignToTeamComponent implements OnInit , OnDestroy{
     for(let i =0; i<this.playerForTeam.length ; i++){
       let namePLayer =  this.playerForTeam[i].name +" " + this.playerForTeam[i].surname
       if(namePLayer === this.playerDrag){
-        console.log(this.playerForTeam[i])
+
         let body ={
           "team":this.idTeam
         };

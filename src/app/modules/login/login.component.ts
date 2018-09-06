@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {LoginService} from "../../services/login/login.service";
-import {LoginModel} from "../../models/login.model";
+import { Router } from "@angular/router";
+import { LoginService } from "../../services/login/login.service";
+import { LoginModel } from "../../models/login.model";
 import { NgxSpinnerService } from 'ngx-spinner';
-import {ToastrService} from "ngx-toastr";
+import { ToastrService } from "ngx-toastr";
+import { Constants} from "../../services/constants";
+import {UtilsService} from "../../services/utils.service";
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(private router : Router, public loginService: LoginService,
               public loginModel : LoginModel,
               public toastr: ToastrService,
+              public utilsService : UtilsService,
               private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -27,20 +30,24 @@ export class LoginComponent implements OnInit {
   goToDashboard(){
     this.spinner.show();
 
+    let password = this.utilsService.getRSAPassword(this.password);
+
+
+
     let body ={
       "username": this.username,
-      "password": this.password
+      "password": password
     };
 
     this.loginService.doLogin(body).subscribe(result=>{
-      console.log('Hemos realizdo login:', result.token)
+
       this.loginModel.setToken(result.token);
       this.router.navigate(['dashboard'])
       this.spinner.hide();
     },error => {
       this.spinner.hide();
       this.toastr.error('Datos Incorrectos');
-      console.log('Error al realizar login')
+
     }
    )
   }

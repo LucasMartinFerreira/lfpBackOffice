@@ -71,7 +71,7 @@ export class NewsListComponent implements OnInit {
         if(dataNews.data[i].date){
           newDate = moment(dataNews.data[i].date).format(Constants.formatData);
         }
-        console.log('Pintamos las fechas', newDate)
+
         newObject = {
           'title' : dataNews.data[i].title,
           'date': newDate,

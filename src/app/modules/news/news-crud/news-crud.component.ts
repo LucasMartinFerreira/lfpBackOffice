@@ -63,7 +63,7 @@ export class NewsCrudComponent implements OnInit {
 
     this.formData = new FormData();
 
-    console.log('Id que llega..', this.newObject)
+
     if(this.newObject !== '' && this.newObject !== null && this.newObject !== undefined){
       this.title = this.newObject.title;
       this.date = moment(this.newObject.date).format(Constants.formatData);
@@ -127,7 +127,7 @@ export class NewsCrudComponent implements OnInit {
       },error=>{
         this.spinner.hide()
         this.toastr.error('Error al crear una noticia!');
-        console.log('Error al crear la noticia (' +error.message +')')
+
       })
     }else{
       this.enabledAllForm();
@@ -164,7 +164,7 @@ export class NewsCrudComponent implements OnInit {
       },error=>{
         this.spinner.hide()
         this.toastr.error('Error al actualizar la noticia ('+error.message+')');
-        console.log('Error al actualizar la noticia ('+error.message+')')
+
       })
     }else{
       this.enabledAllForm();

@@ -107,7 +107,7 @@ export class PlayersListComponent implements OnInit {
 
   deletePlayer(idPlayer: number, name: string){
 
-    console.log('id del jugador', idPlayer)
+
     let dataObject ={
       title:"Borrado de Jugadores",
       message : "¿Desea borrar el jugador "+ name + "?",

@@ -16,7 +16,6 @@ export class TeamsMainComponent implements OnInit {
 
     this.teamsModel.getNameViewActive().subscribe(result=>{
       let view = result;
-      console.log('Lanzamos vista')
       this.viewActive = view;
     });
 
