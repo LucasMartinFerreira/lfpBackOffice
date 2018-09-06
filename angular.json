@@ -28,7 +28,8 @@
               "node_modules/dragula/dist/dragula.css"
             ],
             "scripts": [
-              "./node_modules/moment/min/moment.min.js"
+              "./node_modules/moment/min/moment.min.js",
+              "./src/jsencript.js"
             ]
           },
           "configurations": {
@@ -81,7 +82,8 @@
               "node_modules/dragula/dist/dragula.css"
             ],
             "scripts": [
-              "./node_modules/moment/min/moment.min.js"
+              "./node_modules/moment/min/moment.min.js",
+              "./src/jsencript.js"
             ],
             "assets": [
               "src/favicon.ico",
